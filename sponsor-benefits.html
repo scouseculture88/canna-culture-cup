@@ -1,0 +1,848 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sponsor Benefits - CannaJudge</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f8fafc;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, #2d5016 0%, #4a7c59 100%);
+            color: white;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #7dd3fc;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #7dd3fc;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #1e3a8a 0%, #2d5016 50%, #7c2d12 100%);
+            color: white;
+            padding: 80px 0 60px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="20" cy="20" r="2" fill="rgba(255,255,255,0.1)"><animate attributeName="opacity" values="0;1;0" dur="3s" repeatCount="indefinite"/></circle></svg>') repeat;
+            opacity: 0.3;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+        }
+
+        /* ROI Stats */
+        .roi-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: -30px auto 60px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .roi-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            border-top: 4px solid #f59e0b;
+        }
+
+        .roi-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #2d5016;
+            display: block;
+        }
+
+        .roi-label {
+            color: #666;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Sponsor Packages */
+        .packages-section {
+            padding: 80px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: #2d5016;
+        }
+
+        .packages-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .package-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+            transition: all 0.4s;
+            position: relative;
+        }
+
+        .package-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.2);
+        }
+
+        .package-header {
+            padding: 2rem;
+            text-align: center;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .platinum { background: linear-gradient(135deg, #9333ea, #7c3aed); }
+        .gold { background: linear-gradient(135deg, #f59e0b, #d97706); }
+        .silver { background: linear-gradient(135deg, #6b7280, #4b5563); }
+        .bronze { background: linear-gradient(135deg, #92400e, #7c2d12); }
+
+        .package-price {
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .package-name {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .package-subtitle {
+            opacity: 0.9;
+            font-size: 1rem;
+        }
+
+        .package-body {
+            padding: 2rem;
+        }
+
+        .benefits-list {
+            list-style: none;
+            margin-bottom: 2rem;
+        }
+
+        .benefits-list li {
+            padding: 0.75rem 0;
+            border-bottom: 1px solid #e2e8f0;
+            display: flex;
+            align-items: center;
+        }
+
+        .benefits-list li:last-child {
+            border-bottom: none;
+        }
+
+        .check-icon {
+            color: #22c55e;
+            margin-right: 0.75rem;
+            font-weight: bold;
+        }
+
+        .package-cta {
+            background: #2d5016;
+            color: white;
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            width: 100%;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 1.1rem;
+        }
+
+        .package-cta:hover {
+            background: #1f3a0f;
+            transform: scale(1.02);
+        }
+
+        /* Featured Package */
+        .featured {
+            position: relative;
+            transform: scale(1.05);
+        }
+
+        .featured::before {
+            content: 'MOST POPULAR';
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #ef4444;
+            color: white;
+            padding: 0.5rem 1.5rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            z-index: 10;
+        }
+
+        /* Sponsor ROI Calculator */
+        .roi-calculator {
+            background: white;
+            padding: 3rem;
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+            margin-bottom: 3rem;
+        }
+
+        .calculator-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .calculator-inputs {
+            space-y: 1rem;
+        }
+
+        .input-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #2d5016;
+            font-weight: bold;
+        }
+
+        .input-group input,
+        .input-group select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 1rem;
+        }
+
+        .calculator-results {
+            background: #f8fafc;
+            padding: 2rem;
+            border-radius: 15px;
+            border-left: 4px solid #2d5016;
+        }
+
+        .result-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .result-item:last-child {
+            border-bottom: none;
+            font-weight: bold;
+            font-size: 1.2rem;
+            color: #2d5016;
+        }
+
+        /* Sponsor Timeline */
+        .sponsor-timeline {
+            background: white;
+            padding: 3rem;
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+            margin-bottom: 3rem;
+        }
+
+        .timeline {
+            position: relative;
+            padding-left: 2rem;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 20px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: #2d5016;
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 2rem;
+            padding-left: 2rem;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -9px;
+            top: 5px;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: #2d5016;
+        }
+
+        .timeline-date {
+            color: #f59e0b;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        .timeline-title {
+            color: #2d5016;
+            font-weight: bold;
+            margin: 0.25rem 0;
+        }
+
+        /* Current Sponsors */
+        .current-sponsors {
+            background: white;
+            padding: 3rem;
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+        }
+
+        .sponsor-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .sponsor-card {
+            background: #f8fafc;
+            padding: 1.5rem;
+            border-radius: 15px;
+            text-align: center;
+            border: 2px solid #e2e8f0;
+            transition: all 0.3s;
+        }
+
+        .sponsor-card:hover {
+            border-color: #2d5016;
+            transform: translateY(-3px);
+        }
+
+        .sponsor-logo {
+            width: 80px;
+            height: 80px;
+            background: #2d5016;
+            border-radius: 50%;
+            margin: 0 auto 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: white;
+        }
+
+        .sponsor-tier {
+            background: #f59e0b;
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            display: inline-block;
+            margin-bottom: 0.5rem;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            background: linear-gradient(135deg, #2d5016 0%, #4a7c59 100%);
+            color: white;
+            padding: 4rem 0;
+            text-align: center;
+            margin-top: 3rem;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(45deg, #f59e0b, #eab308);
+            color: white;
+            padding: 15px 30px;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            transition: all 0.3s;
+            box-shadow: 0 10px 20px rgba(245, 158, 11, 0.3);
+            margin: 0 1rem 1rem 0;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(245, 158, 11, 0.4);
+        }
+
+        .cta-secondary {
+            background: transparent;
+            border: 2px solid white;
+            box-shadow: none;
+        }
+
+        .cta-secondary:hover {
+            background: white;
+            color: #2d5016;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            background: white;
+            margin: 3% auto;
+            padding: 2rem;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 800px;
+            position: relative;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .close {
+            position: absolute;
+            right: 15px;
+            top: 15px;
+            font-size: 28px;
+            cursor: pointer;
+            color: #666;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #2d5016;
+            font-weight: bold;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 1rem;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #2d5016;
+        }
+
+        .submit-btn {
+            background: linear-gradient(45deg, #2d5016, #4a7c59);
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            width: 100%;
+            font-size: 1.1rem;
+            transition: all 0.3s;
+        }
+
+        .submit-btn:hover {
+            transform: scale(1.02);
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2rem; }
+            .packages-grid { grid-template-columns: 1fr; }
+            .calculator-grid { grid-template-columns: 1fr; }
+            .featured { transform: none; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <nav class="container">
+            <div class="logo">🌿 CannaJudge</div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="#packages">Packages</a></li>
+                <li><a href="#roi">ROI Calculator</a></li>
+                <li><a href="#timeline">Timeline</a></li>
+                <li><a href="#sponsors">Current Sponsors</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Partner With Excellence</h1>
+                <p>Join the most prestigious cannabis competition platform. Reach engaged audiences, build industry credibility, and support community growth.</p>
+            </div>
+        </div>
+        
+        <div class="container">
+            <div class="roi-stats">
+                <div class="roi-card">
+                    <span class="roi-number">15K+</span>
+                    <span class="roi-label">Event Reach</span>
+                </div>
+                <div class="roi-card">
+                    <span class="roi-number">500+</span>
+                    <span class="roi-label">Industry Professionals</span>
+                </div>
+                <div class="roi-card">
+                    <span class="roi-number">89%</span>
+                    <span class="roi-label">Brand Recognition Increase</span>
+                </div>
+                <div class="roi-card">
+                    <span class="roi-number">3.2x</span>
+                    <span class="roi-label">Average ROI</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sponsor Packages -->
+    <section class="packages-section" id="packages">
+        <div class="container">
+            <h2 class="section-title">Sponsorship Packages</h2>
+            
+            <div class="packages-grid">
+                <!-- Platinum Package -->
+                <div class="package-card featured">
+                    <div class="package-header platinum">
+                        <div class="package-price">£2,500</div>
+                        <div class="package-name">Platinum</div>
+                        <div class="package-subtitle">Title Sponsor</div>
+                    </div>
+                    <div class="package-body">
+                        <ul class="benefits-list">
+                            <li><span class="check-icon">✓</span> Event naming rights</li>
+                            <li><span class="check-icon">✓</span> Logo on all materials & certificates</li>
+                            <li><span class="check-icon">✓</span> 10 VIP event tickets</li>
+                            <li><span class="check-icon">✓</span> Dedicated social media campaigns</li>
+                            <li><span class="check-icon">✓</span> Opening ceremony speaking slot</li>
+                            <li><span class="check-icon">✓</span> Award presentation opportunity</li>
+                            <li><span class="check-icon">✓</span> Post-event detailed analytics report</li>
+                            <li><span class="check-icon">✓</span> Year-round partnership benefits</li>
+                            <li><span class="check-icon">✓</span> Custom activation space</li>
+                        </ul>
+                        <button class="package-cta" onclick="openSponsorModal('platinum')">Become Title Sponsor</button>
+                    </div>
+                </div>
+
+                <!-- Gold Package -->
+                <div class="package-card">
+                    <div class="package-header gold">
+                        <div class="package-price">£1,500</div>
+                        <div class="package-name">Gold</div>
+                        <div class="package-subtitle">Category Sponsor</div>
+                    </div>
+                    <div class="package-body">
+                        <ul class="benefits-list">
+                            <li><span class="check-icon">✓</span> Category naming rights</li>
+                            <li><span class="check-icon">✓</span> Logo on category materials</li>
+                            <li><span class="check-icon">✓</span> 6 VIP event tickets</li>
+                            <li><span class="check-icon">✓</span> Social media mentions</li>
+                            <li><span class="check-icon">✓</span> Category award presentation</li>
+                            <li><span class="check-icon">✓</span> Judge kit branding inclusion</li>
+                            <li><span class="check-icon">✓</span> Event program advertisement</li>
+                            <li><span class="check-icon">✓</span> Networking session access</li>
+                        </ul>
+                        <button class="package-cta" onclick="openSponsorModal('gold')">Sponsor Category</button>
+                    </div>
+                </div>
+
+                <!-- Silver Package -->
+                <div class="package-card">
+                    <div class="package-header silver">
+                        <div class="package-price">£750</div>
+                        <div class="package-name">Silver</div>
+                        <div class="package-subtitle">Supporting Partner</div>
+                    </div>
+                    <div class="package-body">
+                        <ul class="benefits-list">
+                            <li><span class="check-icon">✓</span> Logo on event materials</li>
+                            <li><span class="check-icon">✓</span> 4 VIP event tickets</li>
+                            <li><span class="check-icon">✓</span> Social media recognition</li>
+                            <li><span class="check-icon">✓</span> Event program listing</li>
+                            <li><span class="check-icon">✓</span> Certificate co-branding</li>
+                            <li><span class="check-icon">✓</span> Networking access</li>
+                        </ul>
+                        <button class="package-cta" onclick="openSponsorModal('silver')">Partner With Us</button>
+                    </div>
+                </div>
+
+                <!-- Bronze Package -->
+                <div class="package-card">
+                    <div class="package-header bronze">
+                        <div class="package-price">£400</div>
+                        <div class="package-name">Bronze</div>
+                        <div class="package-subtitle">Community Supporter</div>
+                    </div>
+                    <div class="package-body">
+                        <ul class="benefits-list">
+                            <li><span class="check-icon">✓</span> Logo on website</li>
+                            <li><span class="check-icon">✓</span> 2 event tickets</li>
+                            <li><span class="check-icon">✓</span> Social media mentions</li>
+                            <li><span class="check-icon">✓</span> Program listing</li>
+                            <li><span class="check-icon">✓</span> Community recognition</li>
+                        </ul>
+                        <button class="package-cta" onclick="openSponsorModal('bronze')">Support Community</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ROI Calculator -->
+    <section class="roi-calculator" id="roi">
+        <div class="container">
+            <h2 style="text-align: center; margin-bottom: 2rem; color: #2d5016;">Sponsorship ROI Calculator</h2>
+            
+            <div class="calculator-grid">
+                <div class="calculator-inputs">
+                    <div class="input-group">
+                        <label for="sponsorshipAmount">Sponsorship Investment (£)</label>
+                        <input type="number" id="sponsorshipAmount" value="1500" oninput="calculateROI()">
+                    </div>
+                    <div class="input-group">
+                        <label for="industryType">Your Industry Focus</label>
+                        <select id="industryType" onchange="calculateROI()">
+                            <option value="equipment">Equipment & Supplies</option>
+                            <option value="cultivation">Cultivation Services</option>
+                            <option value="retail">Retail & Dispensary</option>
+                            <option value="testing">Testing & Analytics</option>
+                            <option value="consulting">Consulting Services</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label for="targetGoal">Primary Goal</label>
+                        <select id="targetGoal" onchange="calculateROI()">
+                            <option value="brand">Brand Awareness</option>
+                            <option value="leads">Lead Generation</option>
+                            <option value="sales">Direct Sales</option>
+                            <option value="networking">Industry Networking</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="calculator-results" id="roiResults">
+                    <h3 style="margin-bottom: 1rem; color: #2d5016;">Projected Returns</h3>
+                    <div class="result-item">
+                        <span>Estimated Reach</span>
+                        <span id="estimatedReach">12,000 people</span>
+                    </div>
+                    <div class="result-item">
+                        <span>Cost Per Impression</span>
+                        <span id="costPerImpression">£0.125</span>
+                    </div>
+                    <div class="result-item">
+                        <span>Qualified Leads</span>
+                        <span id="qualifiedLeads">45-60 contacts</span>
+                    </div>
+                    <div class="result-item">
+                        <span>Projected ROI</span>
+                        <span id="projectedROI">3.2x investment</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sponsor Timeline -->
+    <section class="sponsor-timeline" id="timeline">
+        <div class="container">
+            <h2 style="text-align: center; margin-bottom: 2rem; color: #2d5016;">Sponsor Benefits Timeline</h2>
+            
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-date">Immediate (Day 1)</div>
+                    <div class="timeline-title">Partnership Announcement</div>
+                    <p>Social media announcement, website listing, press release distribution</p>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-date">Week 1-2</div>
+                    <div class="timeline-title">Pre-Event Marketing</div>
+                    <p>Logo integration on all materials, email campaigns, targeted social media content</p>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-date">Week 3-4</div>
+                    <div class="timeline-title">Registration Period</div>
+                    <p>Sponsor visibility on all entry forms, competitor communications, website traffic</p>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-date">Competition Day</div>
+                    <div class="timeline-title">Event Exposure</div>
+                    <p>Live event branding, VIP access, networking opportunities, award presentations</p>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-date">Post-Event</div>
+                    <div class="timeline-title">Results & Follow-up</div>
+                    <p>Winner announcements, results sharing, detailed analytics report, community engagement</p>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-date">Ongoing</div>
+                    <div class="timeline-title">Year-Round Partnership</div>
+                    <p>Continued website presence, future event priority, community building initiatives</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Current Sponsors -->
+    <section class="current-sponsors" id="sponsors">
+        <div class="container">
+            <h2 style="text-align: center; margin-bottom: 2rem; color: #2d5016;">Our Valued Partners</h2>
+            
+            <div class="sponsor-grid">
+                <div class="sponsor-card">
+                    <div class="sponsor-logo">🌱</div>
+                    <div class="sponsor-tier">PLATINUM</div>
+                    <h4>Green Tech Solutions</h4>
+                    <p style="color: #666; font-size: 0.9rem;">Leading cultivation equipment provider</p>
+                </div>
+                
+                <div class="sponsor-card">
+                    <div class="sponsor-logo">⚗️</div>
+                    <div class="sponsor-tier">GOLD</div>
+                    <h4>Extract Labs Pro</h4>
+                    <p style="color: #666; font-size: 0.9rem;">Premium extraction services</p>
+                </div>
+                
+                <div class="sponsor-card">
+                    <div class="sponsor-logo">🏪</div>
+                    <div class="sponsor-tier">SILVER</div>
+                    <h4>Cannabis Retail Network</h4>
+                    <p style="color: #666; font-size: 0.9rem;">Multi-location dispensary group</p>
+                </div>
+                
+                <div class="sponsor-card">
+                    <div class="sponsor-logo">🔬</div>
+                    <div class="sponsor-tier">BRONZE</div>
+                    <h4>Quality Testing Labs</h4>
+                    <p style="color: #666; font-size: 0.9rem;">Certified cannabis testing facility</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container">
+            <h2 style="margin-bottom: 1rem;">Ready to Elevate Your Brand?</h2>
+            <p style="margin-bottom: 2rem; font-size: 1.1rem; opacity: 0.9;">Join the most respected names in cannabis and showcase your commitment to excellence</p>
+            <a href="#" class="cta-button" onclick="openSponsorModal('custom')">Become a Sponsor</a>
+            <a href="#" class="cta-button cta-secondary">Download Media Kit</a>
+        </div>
+    </section>
+
+    <!-- Sponsor Application Modal -->
+    <div id="sponsorModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Sponsorship Application</h2>
