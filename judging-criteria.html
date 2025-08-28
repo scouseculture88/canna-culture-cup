@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Judging Criteria - CannaJudge</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f8fafc;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, #2d5016 0%, #4a7c59 100%);
+            color: white;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #7dd3fc;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #7dd3fc;
+        }
+
+        /* Page Header */
+        .page-header {
+            background: linear-gradient(135deg, #1e3a8a 0%, #2d5016 50%, #7c2d12 100%);
+            color: white;
+            padding: 100px 0 60px;
+            text-align: center;
+        }
+
+        .page-header h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .page-header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        /* Main Content */
+        .main-content {
+            padding: 80px 0;
+        }
+
+        .criteria-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .criteria-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .criteria-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #f59e0b, #eab308, #22c55e);
+        }
+
+        .criteria-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+
+        .criteria-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .criteria-icon {
+            font-size: 2.5rem;
+            margin-right: 1rem;
+        }
+
+        .criteria-card h3 {
+            font-size: 1.5rem;
+            color: #2d5016;
+        }
+
+        .scoring-breakdown {
+            margin-bottom: 1.5rem;
+        }
+
+        .score-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .score-item:last-child {
+            border-bottom: none;
+        }
+
+        .score-weight {
+            background: #2d5016;
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 15px;
+            font-size: 0.9rem;
+            font-weight: bold;
+        }
+
+        .evaluation-process {
+            background: white;
+            padding: 2rem;
+            border-radius: 20px;
+            margin-bottom: 3rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .process-steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .process-step {
+            text-align: center;
+            padding: 1.5rem;
+            background: #f8fafc;
+            border-radius: 15px;
+            position: relative;
+        }
+
+        .step-number {
+            background: #2d5016;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            font-weight: bold;
+        }
+
+        .category-standards {
+            margin-top: 3rem;
+        }
+
+        .standards-tabs {
+            display: flex;
+            background: white;
+            border-radius: 15px;
+            padding: 0.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            overflow-x: auto;
+        }
+
+        .tab-button {
+            padding: 1rem 1.5rem;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            border-radius: 10px;
+            font-weight: bold;
+            transition: all 0.3s;
+            white-space: nowrap;
+        }
+
+        .tab-button.active {
+            background: #2d5016;
+            color: white;
+        }
+
+        .tab-content {
+            display: none;
+            background: white;
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .standard-item {
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            background: #f8fafc;
+            border-radius: 10px;
+            border-left: 4px solid #2d5016;
+        }
+
+        .standard-title {
+            font-weight: bold;
+            color: #2d5016;
+            margin-bottom: 0.5rem;
+        }
+
+        .judge-training {
+            background: linear-gradient(135deg, #2d5016 0%, #4a7c59 100%);
+            color: white;
+            padding: 3rem;
+            border-radius: 20px;
+            margin-top: 3rem;
+            text-align: center;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(45deg, #f59e0b, #eab308);
+            color: white;
+            padding: 15px 30px;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            transition: all 0.3s;
+            box-shadow: 0 10px 20px rgba(245, 158, 11, 0.3);
+            margin-top: 1rem;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(245, 158, 11, 0.4);
+        }
+
+        @media (max-width: 768px) {
+            .page-header h1 { font-size: 2rem; }
+            .criteria-grid { grid-template-columns: 1fr; }
+            .process-steps { grid-template-columns: 1fr; }
+            .standards-tabs { flex-wrap: wrap; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <nav class="container">
+            <div class="logo">🌿 CannaJudge</div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="#criteria">Criteria</a></li>
+                <li><a href="#process">Process</a></li>
+                <li><a href="#standards">Standards</a></li>
+                <li><a href="#training">Training</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="container">
+            <h1>Judging Criteria & Standards</h1>
+            <p>Comprehensive evaluation framework ensuring fair and consistent cannabis competition judging</p>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <section class="main-content" id="criteria">
+        <div class="container">
+            <h2 style="text-align: center; font-size: 2.5rem; margin-bottom: 3rem; color: #2d5016;">Core Evaluation Categories</h2>
+            
+            <div class="criteria-grid">
+                <div class="criteria-card">
+                    <div class="criteria-header">
+                        <div class="criteria-icon">👁️</div>
+                        <h3>Visual Appeal</h3>
+                    </div>
+                    <div class="scoring-breakdown">
+                        <div class="score-item">
+                            <span>Trichome Coverage</span>
+                            <span class="score-weight">8 pts</span>
+                        </div>
+                        <div class="score-item">
+                            <span>Color & Vibrancy</span>
+                            <span class="score-weight">6 pts</span>
+                        </div>
+                        <div class="score-item">
+                            <span>Structure & Density</span>
+                            <span class="score-weight">6 pts</span>
+                        </div>
+                    </div>
+                    <p><strong>Total: 20 points</strong> - Evaluating the visual presentation, structure, and overall bag appeal of the cannabis product.</p>
+                </div>
+
+                <div class="criteria-card">
+                    <div class="criteria-header">
+                        <div class="criteria-icon">👃</div>
+                        <h3>Aroma Profile</h3>
+                    </div>
+                    <div class="scoring-breakdown">
+                        <div class="score-item">
+                            <span>Intensity & Strength</span>
+                            <span class="score-weight">8 pts</span>
+                        </div>
+                        <div class="score-item">
+                            <span>Complexity</span>
+                            <span class="score-weight">7 pts</span>
+                        </div>
+                        <div class="score-item">
+                            <span>Pleasantness</span>
+                            <span class="score-weight">5 pts</span>
+                        </div>
+                    </div>
+                    <p><strong>Total: 20 points</strong> - Assessing the terpene profile, scent complexity, and overall aromatic experience.</p>
+                </div>
+
+                <div class="criteria-card">
+                    <div class="criteria-header">
+                        <div class="criteria-icon">👅</div>
+                        <h3>Flavor & Taste</h3>
+                    </div>
+                    <div class="scoring-breakdown">
+                        <div class="score-item">
+                            <span>Initial Flavor</span>
+                            <span class="score-weight">7 pts</span>
+                        </div>
+                        <div class="score-item">
+                            <span>Flavor Development</span>
+                            <span class="score-weight">6 pts</span>
+                        </div>
+                        <div class="score-item">
+                            <span>Aftertaste</span>
+                            <span class="score-weight">4 pts</span>
+                        </div>
+                        <div class="score-item">
+                            <span>Smoothness</span>
+                            <span class="score-weight">3 pts</span>
+                        </div>
+                    </div>
+                    <p><strong>Total: 20 points</strong> - Evaluating taste complexity, smoothness, and overall flavor experience.</p>
+                </div>
+
+                <div class="criteria-card">
+                    <div class="criteria-header">
+                        <div class="criteria-icon">⚡</div>
+                        <h3>Effects & Potency</h3>
+                    </div>
+                    <div class="scoring-breakdown">
+                        <div class="score-item">
+                            <span>Onset Speed</span>
+                            <span class="score-weight">5 pts</span>
+                        </div>
+                        <div class="score-item">
+                            <span>Effect Intensity</span>
+                            <span class="score-weight">8 pts</span>
+                        </div>
+                        <div class="score-item">
+                            <span>Duration</span>
+                            <span class="score-weight">4 pts</span>
+                        </div>
+                        <div class="score-item">
+                            <span>Quality of High</span>
+                            <span class="score-weight">3 pts</span>
+                        </div>
+                    </div>
+                    <p><strong>Total: 20 points</strong> - Assessing cannabinoid effects, potency delivery, and overall experience quality.</p>
+                </div>
+
+                <div class="criteria-card">
+                    <div class="criteria-header">
+                        <div class="criteria-icon">🔬</div>
+                        <h3>Quality & Craftsmanship</h3>
+                    </div>
+                    <div class="scoring-breakdown">
+                        <div class="score-item">
+                            <span>Cure Quality</span>
+                            <span class="score-weight">6 pts</span>
+                        </div>
+                        <div class="score-item">
+                            <span>Trim Quality</span>
+                            <span class="score-weight">4 pts</span>
+                        </div>
+                        <div class="score-item">
+                            <span>Moisture Content</span>
+                            <span class="score-weight">5 pts</span>
+                        </div>
+                        <div class="score-item">
+                            <span>Overall Craftsmanship</span>
+                            <span class="score-weight">5 pts</span>
+                        </div>
+                    </div>
+                    <p><strong>Total: 20 points</strong> - Evaluating cultivation expertise, post-harvest processing, and overall product quality.</p>
+                </div>
+            </div>
+
+            <!-- Evaluation Process -->
+            <div class="evaluation-process" id="process">
+                <h2 style="text-align: center; font-size: 2.2rem; margin-bottom: 1rem; color: #2d5016;">Evaluation Process</h2>
+                <p style="text-align: center; color: #666; margin-bottom: 2rem;">Our rigorous 6-step judging process ensures consistency and fairness across all evaluations</p>
+                
+                <div class="process-steps">
+                    <div class="process-step">
+                        <div class="step-number">1</div>
+                        <h4>Blind Sample Prep</h4>
+                        <p>All entries are anonymized and assigned random codes to eliminate bias</p>
+                    </div>
+                    <div class="process-step">
+                        <div class="step-number">2</div>
+                        <h4>Visual Assessment</h4>
+                        <p>Initial evaluation of structure, color, trichomes, and overall appearance</p>
+                    </div>
+                    <div class="process-step">
+                        <div class="step-number">3</div>
+                        <h4>Aroma Analysis</h4>
+                        <p>Detailed assessment of terpene profiles and scent characteristics</p>
+                    </div>
+                    <div class="process-step">
+                        <div class="step-number">4</div>
+                        <h4>Consumption Testing</h4>
+                        <p>Controlled evaluation of flavor, smoothness, and immediate effects</p>
+                    </div>
+                    <div class="process-step">
+                        <div class="step-number">5</div>
+                        <h4>Effect Documentation</h4>
+                        <p>Recording onset, duration, intensity, and quality of effects over time</p>
+                    </div>
+                    <div class="process-step">
+                        <div class="step-number">6</div>
+                        <h4>Final Scoring</h4>
+                        <p>Compilation of all criteria scores and comprehensive feedback</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Category Standards -->
+            <div class="category-standards" id="standards">
+                <h2 style="text-align: center; font-size: 2.2rem; margin-bottom: 2rem; color: #2d5016;">Category-Specific Standards</h2>
+                
+                <div class="standards-tabs">
+                    <button class="tab-button active" onclick="showTab('flower')">Flower</button>
+                    <button class="tab-button" onclick="showTab('concentrates')">Concentrates</button>
+                    <button class="tab-button" onclick="showTab('edibles')">Edibles</button>
+                    <button class="tab-button" onclick="showTab('vapes')">Vapes</button>
+                    <button class="tab-button" onclick="showTab('topicals')">Topicals</button>
+                </div>
+
+                <div id="flower" class="tab-content active">
+                    <h3>Flower Standards</h3>
+                    <div class="standard-item">
+                        <div class="standard-title">Moisture Content</div>
+                        <p>Optimal range: 8-12%. Properly cured flower should have slight give when squeezed but spring back. Not brittle or overly moist.</p>
+                    </div>
+                    <div class="standard-item">
+                        <div class="standard-title">Trichome Quality</div>
+                        <p>Abundant, milky-white trichomes with minimal amber. Clear trichomes indicate premature harvest, while excessive amber suggests over-maturity.</p>
+                    </div>
+                    <div class="standard-item">
+                        <div class="standard-title">Trim Quality</div>
+                        <p>Minimal sugar leaf presence, clean cuts, no machine damage. Hand-trimmed preferred for premium categories.</p>
+                    </div>
+                </div>
+
+                <div id="concentrates" class="tab-content">
+                    <h3>Concentrate Standards</h3>
+                    <div class="standard-item">
+                        <div class="standard-title">Consistency</div>
+                        <p>Appropriate texture for extraction method. Shatter should be glass-like, wax should be malleable, rosin should be creamy.</p>
+                    </div>
+                    <div class="standard-item">
+                        <div class="standard-title">Color & Clarity</div>
+                        <p>Light amber to golden color preferred. Dark colors may indicate oxidation or poor starting material.</p>
+                    </div>
+                    <div class="standard-item">
+                        <div class="standard-title">Purity</div>
+                        <p>Minimal residual solvents (if applicable), no visible contaminants, clean extraction process evident.</p>
+                    </div>
+                </div>
+
+                <div id="edibles" class="tab-content">
+                    <h3>Edible Standards</h3>
+                    <div class="standard-item">
+                        <div class="standard-title">Dosing Accuracy</div>
+                        <p>Consistent dosing across servings, clearly labeled potency, effects matching stated THC/CBD content.</p>
+                    </div>
+                    <div class="standard-item">
+                        <div class="standard-title">Taste Quality</div>
+                        <p>Cannabis flavor should enhance, not overpower. No bitter or unpleasant cannabis taste unless intended for specific product.</p>
+                    </div>
+                    <div class="standard-item">
+                        <div class="standard-title">Onset & Duration</div>
+                        <p>Predictable onset time (typically 30-120 minutes), duration appropriate for dosage, consistent effects.</p>
+                    </div>
+                </div>
+
+                <div id="vapes" class="tab-content">
+                    <h3>Vape Standards</h3>
+                    <div class="standard-item">
+                        <div class="standard-title">Vapor Quality</div>
+                        <p>Smooth, clean vapor production. No harshness, burning, or off-flavors. Consistent vapor density.</p>
+                    </div>
+                    <div class="standard-item">
+                        <div class="standard-title">Hardware Performance</div>
+                        <p>Reliable heating element, consistent temperature control, no clogging or leakage issues.</p>
+                    </div>
+                    <div class="standard-item">
+                        <div class="standard-title">Oil Quality</div>
+                        <p>Clean, properly decarboxylated oil. Appropriate viscosity, no separation or crystallization.</p>
+                    </div>
+                </div>
+
+                <div id="topicals" class="tab-content">
+                    <h3>Topical Standards</h3>
+                    <div class="standard-item">
+                        <div class="standard-title">Absorption Rate</div>
+                        <p>Appropriate absorption for product type. Lotions should absorb smoothly, balms should provide lasting barrier.</p>
+                    </div>
+                    <div class="standard-item">
+                        <div class="standard-title">Skin Feel</div>
+                        <p>Non-greasy finish (unless intended), pleasant texture, no irritation or adverse reactions.</p>
+                    </div>
+                    <div class="standard-item">
+                        <div class="standard-title">Effect Delivery</div>
+                        <p>Localized effects as intended, appropriate potency for therapeutic claims, consistent relief duration.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Judge Training CTA -->
+            <div class="judge-training" id="training">
+                <h2>Become a Certified Judge</h2>
+                <p>Join our comprehensive training program to master these evaluation standards and become part of our expert judging panel. Our certification process includes hands-on training, standardization testing, and ongoing calibration sessions.</p>
+                <a href="#" class="cta-button">Start Judge Training</a>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        function showTab(tabName) {
+            // Hide all tab contents
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Remove active class from all buttons
+            document.querySelectorAll('.tab-button').forEach(button => {
+                button.classList.remove('active');
+            });
+            
+            // Show selected tab and activate button
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        // Smooth scrolling for navigation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
