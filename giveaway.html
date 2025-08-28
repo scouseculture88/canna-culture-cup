@@ -1,0 +1,1365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Judge Kit Giveaway - CannaJudge</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, #2d5016 0%, #4a7c59 100%);
+            color: white;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #7dd3fc;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #7dd3fc;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #7c2d12 0%, #dc2626 30%, #f59e0b 70%, #eab308 100%);
+            color: white;
+            padding: 80px 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '🎁';
+            position: absolute;
+            font-size: 15rem;
+            opacity: 0.1;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation: glow 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            0% { opacity: 0.1; transform: translate(-50%, -50%) scale(1); }
+            100% { opacity: 0.2; transform: translate(-50%, -50%) scale(1.1); }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-badge {
+            background: rgba(255,255,255,0.2);
+            padding: 0.5rem 1.5rem;
+            border-radius: 25px;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            display: inline-block;
+            backdrop-filter: blur(10px);
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            font-weight: 900;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.3);
+            line-height: 1.1;
+        }
+
+        .hero p {
+            font-size: 1.4rem;
+            margin-bottom: 2rem;
+            opacity: 0.95;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .countdown-timer {
+            background: rgba(0,0,0,0.3);
+            padding: 1.5rem;
+            border-radius: 20px;
+            margin: 2rem auto;
+            max-width: 500px;
+            backdrop-filter: blur(10px);
+        }
+
+        .countdown-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+            text-align: center;
+        }
+
+        .countdown-item {
+            background: rgba(255,255,255,0.1);
+            padding: 1rem;
+            border-radius: 15px;
+        }
+
+        .countdown-number {
+            font-size: 2rem;
+            font-weight: bold;
+            display: block;
+            line-height: 1;
+        }
+
+        .countdown-label {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .enter-button {
+            background: linear-gradient(45deg, #22c55e, #16a34a);
+            color: white;
+            padding: 20px 40px;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 1.2rem;
+            transition: all 0.3s;
+            box-shadow: 0 15px 30px rgba(34, 197, 94, 0.3);
+            display: inline-block;
+            margin-top: 2rem;
+        }
+
+        .enter-button:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 20px 40px rgba(34, 197, 94, 0.4);
+        }
+
+        /* Prize Categories */
+        .prize-section {
+            padding: 80px 0;
+            background: white;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: #2d5016;
+        }
+
+        .prize-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .prize-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+            transition: all 0.4s;
+            position: relative;
+            border: 3px solid transparent;
+        }
+
+        .prize-card:hover {
+            transform: translateY(-10px) rotate(1deg);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.2);
+            border-color: #f59e0b;
+        }
+
+        .prize-header {
+            padding: 2rem;
+            text-align: center;
+            color: white;
+            position: relative;
+            background: linear-gradient(135deg, #2d5016, #4a7c59);
+        }
+
+        .flower-cat { background: linear-gradient(135deg, #22c55e, #16a34a); }
+        .extract-cat { background: linear-gradient(135deg, #f59e0b, #d97706); }
+        .edible-cat { background: linear-gradient(135deg, #ef4444, #dc2626); }
+        .hash-cat { background: linear-gradient(135deg, #8b5cf6, #7c3aed); }
+        .other-cat { background: linear-gradient(135deg, #06b6d4, #0891b2); }
+
+        .prize-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .prize-title {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+        }
+
+        .prize-subtitle {
+            opacity: 0.9;
+            font-size: 1rem;
+        }
+
+        .prize-body {
+            padding: 2rem;
+        }
+
+        .prize-contents {
+            list-style: none;
+            margin-bottom: 1.5rem;
+        }
+
+        .prize-contents li {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #e2e8f0;
+            display: flex;
+            align-items: center;
+        }
+
+        .prize-contents li:last-child {
+            border-bottom: none;
+        }
+
+        .check-icon {
+            color: #22c55e;
+            margin-right: 0.75rem;
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        .prize-value {
+            background: #f8fafc;
+            padding: 1rem;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 1rem;
+            border-left: 4px solid #2d5016;
+        }
+
+        .value-amount {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #2d5016;
+            display: block;
+        }
+
+        .value-label {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        /* Entry Form */
+        .entry-section {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            padding: 80px 0;
+        }
+
+        .entry-form {
+            background: white;
+            padding: 3rem;
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #2d5016;
+            font-weight: bold;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #2d5016;
+            box-shadow: 0 0 0 3px rgba(45, 80, 22, 0.1);
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            width: auto;
+            margin-top: 0.25rem;
+        }
+
+        .checkbox-group label {
+            margin-bottom: 0;
+            font-weight: normal;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .submit-button {
+            background: linear-gradient(45deg, #22c55e, #16a34a);
+            color: white;
+            padding: 18px 30px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            width: 100%;
+            font-size: 1.2rem;
+            transition: all 0.3s;
+            box-shadow: 0 10px 20px rgba(34, 197, 94, 0.3);
+        }
+
+        .submit-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(34, 197, 94, 0.4);
+        }
+
+        .submit-button:disabled {
+            background: #9ca3af;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        /* Rules Section */
+        .rules-section {
+            background: white;
+            padding: 60px 0;
+        }
+
+        .rules-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .rule-card {
+            background: #f8fafc;
+            padding: 2rem;
+            border-radius: 15px;
+            border-left: 4px solid #2d5016;
+        }
+
+        .rule-card h3 {
+            color: #2d5016;
+            margin-bottom: 1rem;
+        }
+
+        /* Winners Showcase */
+        .winners-section {
+            background: linear-gradient(135deg, #2d5016 0%, #4a7c59 100%);
+            color: white;
+            padding: 80px 0;
+            text-align: center;
+        }
+
+        .winners-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .winner-card {
+            background: rgba(255,255,255,0.1);
+            padding: 2rem;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+            transition: all 0.3s;
+        }
+
+        .winner-card:hover {
+            background: rgba(255,255,255,0.15);
+            transform: translateY(-5px);
+        }
+
+        .winner-avatar {
+            width: 80px;
+            height: 80px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 50%;
+            margin: 0 auto 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+        }
+
+        /* Entry Stats */
+        .stats-section {
+            padding: 60px 0;
+            background: #f8fafc;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #2d5016;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: #666;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            letter-spacing: 0.5px;
+        }
+
+        /* Floating Elements */
+        .floating-elements {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        .floating-element {
+            position: absolute;
+            font-size: 2rem;
+            opacity: 0.1;
+            animation: float-around 15s linear infinite;
+        }
+
+        @keyframes float-around {
+            0% { transform: translateY(100vh) rotate(0deg); }
+            100% { transform: translateY(-100px) rotate(360deg); }
+        }
+
+        .floating-element:nth-child(1) { left: 10%; animation-delay: 0s; }
+        .floating-element:nth-child(2) { left: 30%; animation-delay: 3s; }
+        .floating-element:nth-child(3) { left: 50%; animation-delay: 6s; }
+        .floating-element:nth-child(4) { left: 70%; animation-delay: 9s; }
+        .floating-element:nth-child(5) { left: 90%; animation-delay: 12s; }
+
+        /* Success Modal */
+        .success-modal {
+            display: none;
+            position: fixed;
+            z-index: 3000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(5px);
+        }
+
+        .success-content {
+            background: white;
+            margin: 10% auto;
+            padding: 3rem;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 500px;
+            text-align: center;
+            position: relative;
+            animation: successSlide 0.5s ease-out;
+        }
+
+        @keyframes successSlide {
+            from { transform: scale(0.8) translateY(-50px); opacity: 0; }
+            to { transform: scale(1) translateY(0); opacity: 1; }
+        }
+
+        .success-icon {
+            font-size: 4rem;
+            color: #22c55e;
+            margin-bottom: 1rem;
+        }
+
+        /* Mobile Navigation */
+        .mobile-nav-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 10px;
+        }
+
+        .mobile-nav {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: rgba(45, 80, 22, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem;
+            border-radius: 0 0 15px 15px;
+        }
+
+        .mobile-nav.active {
+            display: block;
+        }
+
+        .mobile-nav a {
+            display: block;
+            padding: 1rem;
+            color: white;
+            text-decoration: none;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            font-size: 1.1rem;
+        }
+
+        /* Touch-friendly elements */
+        .enter-button,
+        .submit-button {
+            min-height: 48px;
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            font-size: 16px; /* Prevents zoom on iOS */
+            min-height: 48px;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            min-width: 20px;
+            min-height: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .mobile-nav-toggle { display: block; }
+            nav { position: relative; }
+
+            .hero {
+                padding: 100px 0 60px;
+            }
+
+            .hero h1 { 
+                font-size: 2.5rem;
+                line-height: 1.2;
+            }
+
+            .hero p {
+                font-size: 1.1rem;
+                padding: 0 1rem;
+            }
+
+            .countdown-timer {
+                margin: 1.5rem 0;
+                padding: 1rem;
+            }
+
+            .countdown-grid { 
+                grid-template-columns: repeat(2, 1fr);
+                gap: 0.75rem;
+            }
+
+            .countdown-item {
+                padding: 0.75rem;
+            }
+
+            .countdown-number {
+                font-size: 1.5rem;
+            }
+
+            .prize-grid { 
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+                padding: 0 0.5rem;
+            }
+
+            .prize-card {
+                margin: 0;
+            }
+
+            .prize-card:hover {
+                transform: translateY(-3px);
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1rem;
+            }
+
+            .rules-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .winners-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1rem;
+            }
+
+            .entry-form {
+                padding: 2rem 1.5rem;
+                margin: 0 0.5rem;
+            }
+
+            .form-group {
+                margin-bottom: 1.5rem;
+            }
+
+            .checkbox-group {
+                align-items: flex-start;
+                gap: 1rem;
+            }
+
+            .checkbox-group label {
+                font-size: 0.95rem;
+                line-height: 1.4;
+            }
+
+            .success-content {
+                margin: 20% auto;
+                padding: 2rem;
+                width: 95%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 0 15px;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            .countdown-grid {
+                grid-template-columns: repeat(2, 1fr);
+                font-size: 0.9rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .winners-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .entry-form {
+                padding: 1.5rem 1rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .prize-value {
+                margin-bottom: 1rem;
+            }
+
+            .value-amount {
+                font-size: 1.3rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Floating Background Elements -->
+    <div class="floating-elements">
+        <div class="floating-element">🌿</div>
+        <div class="floating-element">🏆</div>
+        <div class="floating-element">⭐</div>
+        <div class="floating-element">🎁</div>
+        <div class="floating-element">🌱</div>
+    </div>
+
+    <!-- Header -->
+    <header>
+        <nav class="container">
+            <div class="logo">🌿 CannaJudge</div>
+            <button class="mobile-nav-toggle" onclick="toggleMobileNav()">
+                <span id="navIcon">☰</span>
+            </button>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="#giveaway">Giveaway</a></li>
+                <li><a href="#prizes">Prizes</a></li>
+                <li><a href="#rules">Rules</a></li>
+                <li><a href="#enter">Enter Now</a></li>
+            </ul>
+            <div class="mobile-nav" id="mobileNav">
+                <a href="index.html" onclick="toggleMobileNav()">Home</a>
+                <a href="#giveaway" onclick="toggleMobileNav()">Giveaway</a>
+                <a href="#prizes" onclick="toggleMobileNav()">Prizes</a>
+                <a href="#rules" onclick="toggleMobileNav()">Rules</a>
+                <a href="#enter" onclick="toggleMobileNav()">Enter Now</a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="giveaway">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-badge">🎉 EXCLUSIVE GIVEAWAY 🎉</div>
+                <h1>Win Judge Kits!</h1>
+                <p>Experience the ultimate cannabis judging experience with premium sample kits from all competition categories</p>
+                
+                <div class="countdown-timer">
+                    <div class="countdown-grid">
+                        <div class="countdown-item">
+                            <span class="countdown-number" id="days">12</span>
+                            <span class="countdown-label">Days</span>
+                        </div>
+                        <div class="countdown-item">
+                            <span class="countdown-number" id="hours">08</span>
+                            <span class="countdown-label">Hours</span>
+                        </div>
+                        <div class="countdown-item">
+                            <span class="countdown-number" id="minutes">34</span>
+                            <span class="countdown-label">Minutes</span>
+                        </div>
+                        <div class="countdown-item">
+                            <span class="countdown-number" id="seconds">22</span>
+                            <span class="countdown-label">Seconds</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <a href="#enter" class="enter-button">🎁 Enter Giveaway Now</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Entry Stats -->
+    <section class="stats-section">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <span class="stat-number" id="totalEntries">2,847</span>
+                    <span class="stat-label">Total Entries</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">25</span>
+                    <span class="stat-label">Winners Selected</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">5</span>
+                    <span class="stat-label">Categories</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">£2,500+</span>
+                    <span class="stat-label">Prize Value</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Prize Categories -->
+    <section class="prize-section" id="prizes">
+        <div class="container">
+            <h2 class="section-title">Judge Kit Categories</h2>
+            <p style="text-align: center; font-size: 1.1rem; color: #666; margin-bottom: 3rem;">5 winners will be selected for each category - 25 total winners!</p>
+            
+            <div class="prize-grid">
+                <!-- Flower Kit -->
+                <div class="prize-card">
+                    <div class="prize-header flower-cat">
+                        <div class="prize-icon">🌺</div>
+                        <div class="prize-title">Premium Flower Kit</div>
+                        <div class="prize-subtitle">5 Winners Selected</div>
+                    </div>
+                    <div class="prize-body">
+                        <div class="prize-value">
+                            <span class="value-amount">£300+</span>
+                            <span class="value-label">Estimated Value</span>
+                        </div>
+                        <ul class="prize-contents">
+                            <li><span class="check-icon">🌿</span> 15+ premium flower samples</li>
+                            <li><span class="check-icon">📋</span> Professional judging scorecards</li>
+                            <li><span class="check-icon">🔍</span> Magnifying glass & tools</li>
+                            <li><span class="check-icon">📖</span> Strain information sheets</li>
+                            <li><span class="check-icon">🏆</span> Judge certification process</li>
+                            <li><span class="check-icon">🎁</span> Exclusive judge merchandise</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Extract Kit -->
+                <div class="prize-card">
+                    <div class="prize-header extract-cat">
+                        <div class="prize-icon">💎</div>
+                        <div class="prize-title">Extract & Concentrate Kit</div>
+                        <div class="prize-subtitle">5 Winners Selected</div>
+                    </div>
+                    <div class="prize-body">
+                        <div class="prize-value">
+                            <span class="value-amount">£400+</span>
+                            <span class="value-label">Estimated Value</span>
+                        </div>
+                        <ul class="prize-contents">
+                            <li><span class="check-icon">⚗️</span> 10+ extract samples (rosin, shatter, wax)</li>
+                            <li><span class="check-icon">🧪</span> Specialized extract judging tools</li>
+                            <li><span class="check-icon">📊</span> Extract evaluation scorecards</li>
+                            <li><span class="check-icon">🔥</span> Premium dabbing accessories</li>
+                            <li><span class="check-icon">📚</span> Extract education materials</li>
+                            <li><span class="check-icon">🎖️</span> Extract judge certification</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Edibles Kit -->
+                <div class="prize-card">
+                    <div class="prize-header edible-cat">
+                        <div class="prize-icon">🍫</div>
+                        <div class="prize-title">Edibles Tasting Kit</div>
+                        <div class="prize-subtitle">5 Winners Selected</div>
+                    </div>
+                    <div class="prize-body">
+                        <div class="prize-value">
+                            <span class="value-amount">£250+</span>
+                            <span class="value-label">Estimated Value</span>
+                        </div>
+                        <ul class="prize-contents">
+                            <li><span class="check-icon">🍪</span> 15+ edible samples (gummies, chocolates, etc.)</li>
+                            <li><span class="check-icon">⏱️</span> Onset timing tracking sheets</li>
+                            <li><span class="check-icon">📝</span> Edible-specific scorecards</li>
+                            <li><span class="check-icon">🧑‍🍳</span> Culinary evaluation guidelines</li>
+                            <li><span class="check-icon">📱</span> Digital tracking app access</li>
+                            <li><span class="check-icon">🏅</span> Edibles judge certification</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Hash Kit -->
+                <div class="prize-card">
+                    <div class="prize-header hash-cat">
+                        <div class="prize-icon">🟤</div>
+                        <div class="prize-title">Hash & Traditionables Kit</div>
+                        <div class="prize-subtitle">5 Winners Selected</div>
+                    </div>
+                    <div class="prize-body">
+                        <div class="prize-value">
+                            <span class="value-amount">£350+</span>
+                            <span class="value-label">Estimated Value</span>
+                        </div>
+                        <ul class="prize-contents">
+                            <li><span class="check-icon">🔶</span> 8+ hash samples (bubble, dry sift, etc.)</li>
+                            <li><span class="check-icon">🔧</span> Traditional hash tools</li>
+                            <li><span class="check-icon">📜</span> Hash evaluation criteria</li>
+                            <li><span class="check-icon">🎯</span> Texture & consistency guides</li>
+                            <li><span class="check-icon">🏛️</span> Traditional methods education</li>
+                            <li><span class="check-icon">⭐</span> Hash master certification</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Specialty Kit -->
+                <div class="prize-card">
+                    <div class="prize-header other-cat">
+                        <div class="prize-icon">🌟</div>
+                        <div class="prize-title">Specialty Products Kit</div>
+                        <div class="prize-subtitle">5 Winners Selected</div>
+                    </div>
+                    <div class="prize-body">
+                        <div class="prize-value">
+                            <span class="value-amount">£275+</span>
+                            <span class="value-label">Estimated Value</span>
+                        </div>
+                        <ul class="prize-contents">
+                            <li><span class="check-icon">💊</span> Innovative product samples</li>
+                            <li><span class="check-icon">🧴</span> Topicals, tinctures & more</li>
+                            <li><span class="check-icon">🔬</span> Product analysis tools</li>
+                            <li><span class="check-icon">📋</span> Multi-category scorecards</li>
+                            <li><span class="check-icon">🚀</span> Innovation evaluation criteria</li>
+                            <li><span class="check-icon">🌈</span> Specialty judge certification</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Entry Form -->
+    <section class="entry-section" id="enter">
+        <div class="container">
+            <h2 class="section-title">Enter to Win</h2>
+            
+            <div class="entry-form">
+                <form id="giveawayForm">
+                    <div class="form-group">
+                        <label for="fullName">Full Name *</label>
+                        <input type="text" id="fullName" name="fullName" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">Email Address *</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="phone">Phone Number</label>
+                        <input type="tel" id="phone" name="phone">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="location">Location (City, Country) *</label>
+                        <input type="text" id="location" name="location" required placeholder="e.g. London, UK">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="preferredCategory">Preferred Kit Category *</label>
+                        <select id="preferredCategory" name="preferredCategory" required>
+                            <option value="">Select Your Preferred Category</option>
+                            <option value="flower">Premium Flower Kit</option>
+                            <option value="extract">Extract & Concentrate Kit</option>
+                            <option value="edible">Edibles Tasting Kit</option>
+                            <option value="hash">Hash & Traditionables Kit</option>
+                            <option value="specialty">Specialty Products Kit</option>
+                            <option value="any">Any Category (Higher Chance!)</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="experience">Cannabis Experience Level *</label>
+                        <select id="experience" name="experience" required>
+                            <option value="">Select Experience Level</option>
+                            <option value="beginner">Beginner (0-2 years)</option>
+                            <option value="intermediate">Intermediate (3-5 years)</option>
+                            <option value="experienced">Experienced (6-10 years)</option>
+                            <option value="expert">Expert (10+ years)</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="industry">Industry Connection</label>
+                        <select id="industry" name="industry">
+                            <option value="">Select if applicable</option>
+                            <option value="cultivation">Cultivation/Growing</option>
+                            <option value="processing">Processing/Manufacturing</option>
+                            <option value="retail">Retail/Dispensary</option>
+                            <option value="testing">Testing/Lab Services</option>
+                            <option value="consulting">Consulting/Education</option>
+                            <option value="media">Cannabis Media/Content</option>
+                            <option value="enthusiast">Cannabis Enthusiast</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="socialHandle">Social Media Handle (Optional)</label>
+                        <input type="text" id="socialHandle" name="socialHandle" placeholder="@yourhandle or profile link">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="referral">How did you hear about us?</label>
+                        <select id="referral" name="referral">
+                            <option value="">Select one</option>
+                            <option value="social">Social Media</option>
+                            <option value="friend">Friend/Word of Mouth</option>
+                            <option value="web">Google Search</option>
+                            <option value="industry">Industry Event</option>
+                            <option value="partner">Partner/Sponsor</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="motivation">Why do you want to be a cannabis judge? *</label>
+                        <textarea id="motivation" name="motivation" rows="4" required placeholder="Tell us about your passion for cannabis and why judging interests you..."></textarea>
+                    </div>
+                    
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="ageVerification" name="ageVerification" required>
+                        <label for="ageVerification">I confirm that I am 21+ years old and legally able to consume cannabis in my jurisdiction *</label>
+                    </div>
+                    
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="terms" name="terms" required>
+                        <label for="terms">I agree to the Terms & Conditions and Privacy Policy *</label>
+                    </div>
+                    
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="marketing" name="marketing">
+                        <label for="marketing">I'd like to receive updates about future competitions and cannabis community events</label>
+                    </div>
+                    
+                    <button type="submit" class="submit-button" id="submitBtn">
+                        🎁 Enter Giveaway - FREE!
+                    </button>
+                    
+                    <p style="text-align: center; margin-top: 1rem; color: #666; font-size: 0.9rem;">
+                        No purchase necessary. Winners announced September 15th, 2025
+                    </p>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Rules & Guidelines -->
+    <section class="rules-section" id="rules">
+        <div class="container">
+            <h2 class="section-title">Giveaway Rules & Guidelines</h2>
+            
+            <div class="rules-grid">
+                <div class="rule-card">
+                    <h3>🎯 Eligibility Requirements</h3>
+                    <p><strong>Age:</strong> Must be 21+ years old<br>
+                    <strong>Location:</strong> Legal cannabis jurisdiction required<br>
+                    <strong>Verification:</strong> Winners must provide age verification<br>
+                    <strong>Limit:</strong> One entry per person/household</p>
+                </div>
+                
+                <div class="rule-card">
+                    <h3>🏆 Selection Process</h3>
+                    <p><strong>Random Drawing:</strong> Winners selected randomly from eligible entries<br>
+                    <strong>Verification:</strong> All winners verified before kit shipment<br>
+                    <strong>Notification:</strong> Winners contacted within 48 hours<br>
+                    <strong>Backup Winners:</strong> Additional winners selected if needed</p>
+                </div>
+                
+                <div class="rule-card">
+                    <h3>📦 Kit Distribution</h3>
+                    <p><strong>Shipping:</strong> Free worldwide shipping to legal jurisdictions<br>
+                    <strong>Timing:</strong> Kits shipped 1-2 weeks after winner announcement<br>
+                    <strong>Contents:</strong> Premium samples from actual competition entries<br>
+                    <strong>Discretion:</strong> All packages shipped discreetly</p>
+                </div>
+                
+                <div class="rule-card">
+                    <h3>⚖️ Legal Compliance</h3>
+                    <p><strong>Local Laws:</strong> Winners responsible for local compliance<br>
+                    <strong>No Sale:</strong> Giveaway prizes cannot be sold or transferred<br>
+                    <strong>Documentation:</strong> All products lab-tested and documented<br>
+                    <strong>Discretion:</strong> CannaJudge reserves right to disqualify entries</p>
+                </div>
+                
+                <div class="rule-card">
+                    <h3>📅 Important Dates</h3>
+                    <p><strong>Entry Period:</strong> August 28 - September 10, 2025<br>
+                    <strong>Winner Selection:</strong> September 12, 2025<br>
+                    <strong>Announcement:</strong> September 15, 2025<br>
+                    <strong>Kit Shipping:</strong> September 20-30, 2025</p>
+                </div>
+                
+                <div class="rule-card">
+                    <h3>🤝 Judge Responsibilities</h3>
+                    <p><strong>Evaluation:</strong> Complete judging within 2 weeks<br>
+                    <strong>Feedback:</strong> Provide detailed scorecards<br>
+                    <strong>Confidentiality:</strong> Maintain sample anonymity<br>
+                    <strong>Recognition:</strong> Possible invitation to future judge panels</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Previous Winners -->
+    <section class="winners-section">
+        <div class="container">
+            <h2 style="margin-bottom: 1rem;">Previous Giveaway Winners</h2>
+            <p style="margin-bottom: 3rem; opacity: 0.9; font-size: 1.1rem;">Celebrating our amazing community of cannabis judges</p>
+            
+            <div class="winners-grid">
+                <div class="winner-card">
+                    <div class="winner-avatar">🌿</div>
+                    <h4>Sarah M.</h4>
+                    <p>London, UK</p>
+                    <p style="font-size: 0.9rem; opacity: 0.8; margin-top: 0.5rem;">"The flower kit was incredible - learned so much about terpene profiles!"</p>
+                </div>
+                
+                <div class="winner-card">
+                    <div class="winner-avatar">💎</div>
+                    <h4>Marcus R.</h4>
+                    <p>Amsterdam, NL</p>
+                    <p style="font-size: 0.9rem; opacity: 0.8; margin-top: 0.5rem;">"Extract judging opened my eyes to craft concentrates!"</p>
+                </div>
+                
+                <div class="winner-card">
+                    <div class="winner-avatar">🍫</div>
+                    <h4>Lisa C.</h4>
+                    <p>Barcelona, ES</p>
+                    <p style="font-size: 0.9rem; opacity: 0.8; margin-top: 0.5rem;">"The edibles kit was a gourmet cannabis experience!"</p>
+                </div>
+                
+                <div class="winner-card">
+                    <div class="winner-avatar">🟤</div>
+                    <h4>Ahmed H.</h4>
+                    <p>Berlin, DE</p>
+                    <p style="font-size: 0.9rem; opacity: 0.8; margin-top: 0.5rem;">"Traditional hash judging connected me to cannabis heritage!"</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Success Modal -->
+    <div id="successModal" class="success-modal">
+        <div class="success-content">
+            <div class="success-icon">🎉</div>
+            <h2 style="color: #2d5016; margin-bottom: 1rem;">You're Entered!</h2>
+            <p style="color: #666; margin-bottom: 1.5rem;">Your giveaway entry has been submitted successfully. Good luck!</p>
+            <p style="font-weight: bold; color: #2d5016;">Entry #<span id="entryNumber">2848</span></p>
+            <button onclick="closeSuccessModal()" style="background: #22c55e; color: white; border: none; padding: 1rem 2rem; border-radius: 25px; margin-top: 1rem; cursor: pointer; font-weight: bold;">Continue</button>
+        </div>
+    </div>
+
+    <script>
+        // Mobile navigation toggle
+        function toggleMobileNav() {
+            const mobileNav = document.getElementById('mobileNav');
+            const navIcon = document.getElementById('navIcon');
+            
+            mobileNav.classList.toggle('active');
+            navIcon.textContent = mobileNav.classList.contains('active') ? '✕' : '☰';
+        }
+
+        // Entry counter (simulated)
+        let entryCount = 2847;
+        
+        // Countdown Timer
+        function updateCountdown() {
+            const giveawayEnd = new Date('September 10, 2025 23:59:59').getTime();
+            const now = new Date().getTime();
+            const distance = giveawayEnd - now;
+
+            if (distance > 0) {
+                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                document.getElementById('days').textContent = days.toString().padStart(2, '0');
+                document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
+                document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
+                document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
+            } else {
+                document.querySelector('.countdown-timer').innerHTML = '<h3 style="color: #ef4444;">Giveaway Ended</h3>';
+            }
+        }
+
+        // Update countdown every second
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
+
+        // Simulate real-time entry updates
+        function updateEntryCount() {
+            if (Math.random() > 0.7) { // 30% chance every 3 seconds
+                entryCount += Math.floor(Math.random() * 3) + 1;
+                document.getElementById('totalEntries').textContent = entryCount.toLocaleString();
+            }
+        }
+        setInterval(updateEntryCount, 3000);
+
+        // Form submission
+        document.getElementById('giveawayForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const submitBtn = document.getElementById('submitBtn');
+            const formData = new FormData(this);
+            
+            // Validate required fields
+            const requiredFields = ['fullName', 'email', 'location', 'preferredCategory', 'experience', 'motivation'];
+            const checkboxes = ['ageVerification', 'terms'];
+            
+            let isValid = true;
+            
+            // Check text fields
+            requiredFields.forEach(field => {
+                const input = document.getElementById(field);
+                if (!input.value.trim()) {
+                    input.style.borderColor = '#ef4444';
+                    isValid = false;
+                } else {
+                    input.style.borderColor = '#e2e8f0';
+                }
+            });
+            
+            // Check required checkboxes
+            checkboxes.forEach(field => {
+                const checkbox = document.getElementById(field);
+                if (!checkbox.checked) {
+                    checkbox.parentElement.style.color = '#ef4444';
+                    isValid = false;
+                } else {
+                    checkbox.parentElement.style.color = '#666';
+                }
+            });
+            
+            if (!isValid) {
+                alert('Please complete all required fields and accept the terms.');
+                return;
+            }
+            
+            // Simulate submission
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Submitting Entry...';
+            
+            setTimeout(() => {
+                // Increment entry count
+                entryCount++;
+                document.getElementById('totalEntries').textContent = entryCount.toLocaleString();
+                document.getElementById('entryNumber').textContent = entryCount;
+                
+                // Show success modal
+                document.getElementById('successModal').style.display = 'block';
+                
+                // Reset form
+                this.reset();
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = '🎁 Enter Giveaway - FREE!';
+            }, 2000);
+        });
+
+        // Close success modal
+        function closeSuccessModal() {
+            document.getElementById('successModal').style.display = 'none';
+        }
+
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Add some visual feedback for form interactions
+        document.querySelectorAll('input, select, textarea').forEach(input => {
+            input.addEventListener('focus', function() {
+                this.style.transform = 'scale(1.02)';
+                this.style.boxShadow = '0 5px 15px rgba(45, 80, 22, 0.15)';
+            });
+            
+            input.addEventListener('blur', function() {
+                this.style.transform = 'scale(1)';
+                this.style.boxShadow = 'none';
+            });
+        });
+
+        // Prize card hover effects
+        document.querySelectorAll('.prize-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.animationPlayState = 'paused';
+                const icon = this.querySelector('.prize-icon');
+                icon.style.transform = 'scale(1.2) rotate(10deg)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                const icon = this.querySelector('.prize-icon');
+                icon.style.transform = 'scale(1) rotate(0deg)';
+            });
+        });
+
+        // Add entry animations on scroll
+        function animateOnScroll() {
+            const elements = document.querySelectorAll('.prize-card, .rule-card, .winner-card');
+            elements.forEach(element => {
+                const elementTop = element.getBoundingClientRect().top;
+                const elementVisible = 150;
+                
+                if (elementTop < window.innerHeight - elementVisible) {
+                    element.style.opacity = '1';
+                    element.style.transform = 'translateY(0)';
+                }
+            });
+        }
+
+        // Initialize elements with animation-ready styles
+        document.querySelectorAll('.prize-card, .rule-card, .winner-card').forEach(element => {
+            element.style.opacity = '0';
+            element.style.transform = 'translateY(50px)';
+            element.style.transition = 'all 0.6s ease-out';
+        });
+
+        window.addEventListener('scroll', animateOnScroll);
+        animateOnScroll(); // Run once on load
+    </script>
+</body>
+</html>
