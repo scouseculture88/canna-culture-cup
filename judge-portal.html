@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Judge Portal - CannaJudge</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f8fafc;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, #2d5016 0%, #4a7c59 100%);
+            color: white;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #7dd3fc;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #7dd3fc;
+        }
+
+        .judge-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .judge-avatar {
+            width: 40px;
+            height: 40px;
+            background: #7dd3fc;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #2d5016;
+        }
+
+        .judge-level {
+            background: rgba(255,255,255,0.2);
+            padding: 0.25rem 0.75rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+        }
+
+        /* Mobile Navigation */
+        .mobile-nav-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 10px;
+        }
+
+        .mobile-nav {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: rgba(45, 80, 22, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem;
+            border-radius: 0 0 15px 15px;
+        }
+
+        .mobile-nav.active {
+            display: block;
+        }
+
+        .mobile-nav a {
+            display: block;
+            padding: 1rem;
+            color: white;
+            text-decoration: none;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            font-size: 1.1rem;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #1e3a8a 0%, #2d5016 50%, #7c2d12 100%);
+            color: white;
+            padding: 80px 0 60px;
+        }
+
+        .hero-content {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .hero p {
+            opacity: 0.9;
+            font-size: 1.1rem;
+        }
+
+        .judge-stats {
+            background: rgba(255,255,255,0.1);
+            padding: 2rem;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            text-align: center;
+            min-width: 200px;
+        }
+
+        .stat-item {
+            margin-bottom: 1rem;
+        }
+
+        .stat-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        /* Quick Stats */
+        .quick-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin: -30px auto 60px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .card-value {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #2d5016;
+            display: block;
+        }
+
+        .card-label {
+            color: #666;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+        }
+
+        /* Main Content */
+        .main-content {
+            padding: 60px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: #2d5016;
+        }
+
+        /* Sample Cards */
+        .samples-grid {
+            display: grid;
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .sample-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .sample-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+        }
+
+        .flower-card::before { background: linear-gradient(90deg, #22c55e, #16a34a); }
+        .extract-card::before { background: linear-gradient(90deg, #f59e0b, #d97706); }
+        .edible-card::before { background: linear-gradient(90deg, #ef4444, #dc2626); }
+
+        .sample-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.2);
+        }
+
+        .sample-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .sample-info h3 {
+            color: #2d5016;
+            font-size: 1.5rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .sample-info p {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .sample-id {
+            background: #2d5016;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 25px;
+            font-family: monospace;
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        .sample-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .detail-box {
+            background: #f8fafc;
+            padding: 1rem;
+            border-radius: 10px;
+            text-align: center;
+            border-left: 3px solid #2d5016;
+        }
+
+        .detail-label {
+            font-size: 0.8rem;
+            color: #666;
+            text-transform: uppercase;
+            margin-bottom: 0.25rem;
+        }
+
+        .detail-value {
+            font-weight: bold;
+            color: #2d5016;
+            font-size: 1.1rem;
+        }
+
+        .judge-button {
+            background: linear-gradient(45deg, #2d5016, #4a7c59);
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1.1rem;
+            transition: all 0.3s;
+            width: 100%;
+            min-height: 48px;
+        }
+
+        .judge-button:hover {
+            transform: scale(1.02);
+            box-shadow: 0 10px 20px rgba(45, 80, 22, 0.3);
+        }
+
+        .instruction-box {
+            padding: 1rem;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            margin-top: 1rem;
+        }
+
+        .warning-box {
+            background: #fef3c7;
+            color: #92400e;
+            border-left: 4px solid #f59e0b;
+        }
+
+        .info-box {
+            background: #e0f2fe;
+            color: #0369a1;
+            border-left: 4px solid #06b6d4;
+        }
+
+        /* Completed Section */
+        .completed-section {
+            background: white;
+            padding: 4rem 0;
+        }
+
+        .completed-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .completed-card {
+            background: #f8fafc;
+            padding: 1.5rem;
+            border-radius: 15px;
+            border-left: 4px solid #22c55e;
+            transition: all 0.3s;
+        }
+
+        .completed-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        .completed-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .completed-score {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #22c55e;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: 2px solid #2d5016;
+            background: transparent;
+            color: #2d5016;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+            min-height: 44px;
+        }
+
+        .btn:hover {
+            background: #2d5016;
+            color: white;
+        }
+
+        /* Mobile Optimization */
+        @media (max-width: 768px) {
+            .nav-links { 
+                display: none; 
+            }
+            
+            .mobile-nav-toggle { 
+                display: block; 
+            }
+
+            .hero {
+                padding: 60px 0 40px;
+            }
+
+            .hero-content { 
+                grid-template-columns: 1fr; 
+                text-align: center;
+                gap: 1.5rem;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .quick-stats {
+                grid-template-columns: repeat(2, 1fr);
+                margin: -20px auto 40px;
+            }
+
+            .sample-header {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+
+            .sample-details {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .judge-info {
+                gap: 0.5rem;
+            }
+
+            .judge-info > div:last-child {
+                font-size: 0.9rem;
+            }
+
+            .container {
+                padding: 0 15px;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+
+            .quick-stats {
+                grid-template-columns: 1fr;
+            }
+
+            .sample-details {
+                grid-template-columns: 1fr;
+            }
+
+            .sample-card {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <nav class="container">
+            <div class="logo">🌿 CannaJudge</div>
+            <button class="mobile-nav-toggle" onclick="toggleMobileNav()">
+                <span id="navIcon">☰</span>
+            </button>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="#samples">My Samples</a></li>
+                <li><a href="#completed">Completed</a></li>
+                <li><a href="#guidelines">Guidelines</a></li>
+            </ul>
+            <div class="mobile-nav" id="mobileNav">
+                <a href="index.html" onclick="toggleMobileNav()">Home</a>
+                <a href="#samples" onclick="toggleMobileNav()">My Samples</a>
+                <a href="#completed" onclick="toggleMobileNav()">Completed</a>
+                <a href="#guidelines" onclick="toggleMobileNav()">Guidelines</a>
+            </div>
+            <div class="judge-info">
+                <div class="judge-avatar">ST</div>
+                <div>
+                    <div>Sarah Thompson</div>
+                    <div class="judge-level">Expert Judge</div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div>
+                    <h1>Judge Portal</h1>
+                    <p>Evaluate cannabis samples with precision and maintain the highest standards of assessment</p>
+                </div>
+                <div class="judge-stats">
+                    <div class="stat-item">
+                        <span class="stat-number">8</span>
+                        <span class="stat-label">Completed</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">4</span>
+                        <span class="stat-label">Remaining</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">87.6</span>
+                        <span class="stat-label">Avg Score</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Quick Stats -->
+    <section class="container">
+        <div class="quick-stats">
+            <div class="stat-card">
+                <div class="card-icon">🌺</div>
+                <div class="card-value">6/8</div>
+                <div class="card-label">Flower Samples</div>
+            </div>
+            <div class="stat-card">
+                <div class="card-icon">💎</div>
+                <div class="card-value">2/4</div>
+                <div class="card-label">Extract Samples</div>
+            </div>
+            <div class="stat-card">
+                <div class="card-icon">⏱️</div>
+                <div class="card-value">5</div>
+                <div class="card-label">Days Left</div>
+            </div>
+            <div class="stat-card">
+                <div class="card-icon">🏆</div>
+                <div class="card-value">92%</div>
+                <div class="card-label">On Track</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Assigned Samples -->
+    <section class="main-content" id="samples">
+        <div class="container">
+            <h2 class="section-title">Your Assigned Samples</h2>
+            
+            <div class="samples-grid">
+                <!-- Flower Sample -->
+                <div class="sample-card flower-card">
+                    <div class="sample-header">
+                        <div class="sample-info">
+                            <h3>Sample F-127</h3>
+                            <p>Flower Category • Assigned Aug 28, 2025</p>
+                        </div>
+                        <div class="sample-id">F-127</div>
+                    </div>
+                    
+                    <div class="sample-details">
+                        <div class="detail-box">
+                            <div class="detail-label">Weight</div>
+                            <div class="detail-value">0.9g</div>
+                        </div>
+                        <div class="detail-box">
+                            <div class="detail-label">Due Date</div>
+                            <div class="detail-value">Sept 2</div>
+                        </div>
+                        <div class="detail-box">
+                            <div class="detail-label">Priority</div>
+                            <div class="detail-value">High</div>
+                        </div>
+                    </div>
+
+                    <div class="instruction-box warning-box">
+                        <strong>⚠️ Instructions:</strong> Allow 30 minutes for evaluation. Use proper lighting for visual assessment. Rate effects over 2-hour period.
+                    </div>
+
+                    <button class="judge-button" onclick="startJudging('F-127')">
+                        Begin Judging Sample F-127
+                    </button>
+                </div>
+
+                <!-- Extract Sample -->
+                <div class="sample-card extract-card">
+                    <div class="sample-header">
+                        <div class="sample-info">
+                            <h3>Sample E-089</h3>
+                            <p>Extract Category • Assigned Aug 27, 2025</p>
+                        </div>
+                        <div class="sample-id">E-089</div>
+                    </div>
+                    
+                    <div class="sample-details">
+                        <div class="detail-box">
+                            <div class="detail-label">Weight</div>
+                            <div class="detail-value">1.0g</div>
+                        </div>
+                        <div class="detail-box">
+                            <div class="detail-label">Type</div>
+                            <div class="detail-value">Live Rosin</div>
+                        </div>
+                        <div class="detail-box">
+                            <div class="detail-label">Due Date</div>
+                            <div class="detail-value">Sept 3</div>
+                        </div>
+                    </div>
+
+                    <div class="instruction-box info-box">
+                        <strong>ℹ️ Extract Notes:</strong> Use provided dab tool and torch. Evaluate consistency at room temperature first, then after heating.
+                    </div>
+
+                    <button class="judge-button" onclick="startJudging('E-089')">
+                        Begin Judging Sample E-089
+                    </button>
+                </div>
+
+                <!-- Edible Sample -->
+                <div class="sample-card edible-card">
+                    <div class="sample-header">
+                        <div class="sample-info">
+                            <h3>Sample D-045</h3>
+                            <p>Edible Category • Assigned Aug 26, 2025</p>
+                        </div>
+                        <div class="sample-id">D-045</div>
+                    </div>
+                    
+                    <div class="sample-details">
+                        <div class="detail-box">
+                            <div class="detail-label">Type</div>
+                            <div class="detail-value">Gummy</div>
+                        </div>
+                        <div class="detail-box">
+                            <div class="detail-label">Dosage</div>
+                            <div class="detail-value">10mg THC</div>
+                        </div>
+                        <div class="detail-box">
+                            <div class="detail-label">Due Date</div>
+                            <div class="detail-value">Sept 4</div>
+                        </div>
+                    </div>
+
+                    <div class="instruction-box warning-box">
+                        <strong>⚠️ Edible Warning:</strong> Start judging early morning on empty stomach. Allow 2-3 hours for full effect evaluation.
+                    </div>
+
+                    <button class="judge-button" onclick="startJudging('D-045')">
+                        Begin Judging Sample D-045
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Completed Samples -->
+    <section class="completed-section" id="completed">
+        <div class="container">
+            <h2 style="text-align: center; margin-bottom: 2rem; color: #2d5016;">Completed Evaluations</h2>
+            
+            <div class="completed-grid">
+                <div class="completed-card">
+                    <div class="completed-header">
+                        <div>
+                            <h4>Sample F-093</h4>
+                            <p style="color: #666; font-size: 0.9rem;">Flower • Completed Aug 27</p>
+                        </div>
+                        <div class="completed-score">92.1/100</div>
+                    </div>
+                    <p style="color: #666; margin-bottom: 1rem;">Exceptional trichome coverage, perfect cure, outstanding aroma complexity</p>
+                    <button class="btn" onclick="alert('Detailed scoring review would open here')">Review Scoring</button>
+                </div>
+
+                <div class="completed-card">
+                    <div class="completed-header">
+                        <div>
+                            <h4>Sample F-078</h4>
+                            <p style="color: #666; font-size: 0.9rem;">Flower • Completed Aug 26</p>
+                        </div>
+                        <div class="completed-score">88.7/100</div>
+                    </div>
+                    <p style="color: #666; margin-bottom: 1rem;">Great structure and effects, minor points off for trim quality</p>
+                    <button class="btn" onclick="alert('Detailed scoring review would open here')">Review Scoring</button>
+                </div>
+
+                <div class="completed-card">
+                    <div class="completed-header">
+                        <div>
+                            <h4>Sample E-034</h4>
+                            <p style="color: #666; font-size: 0.9rem;">Extract • Completed Aug 25</p>
+                        </div>
+                        <div class="completed-score">85.3/100</div>
+                    </div>
+                    <p style="color: #666; margin-bottom: 1rem;">Clean extraction, good flavor profile, slight consistency issues</p>
+                    <button class="btn" onclick="alert('Detailed scoring review would open here')">Review Scoring</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Guidelines Section -->
+    <section style="padding: 80px 0; background: #f8fafc;" id="guidelines">
+        <div class="container">
+            <h2 class="section-title">Judging Guidelines & Standards</h2>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-bottom: 3rem;">
+                <div style="background: white; padding: 2rem; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
+                    <h3 style="color: #2d5016; margin-bottom: 1rem;">🔍 Visual Assessment</h3>
+                    <p><strong>Time:</strong> 5-10 minutes<br><strong>Process:</strong> Examine under proper lighting. Note trichome coverage, color vibrancy, structure, and trim quality. Use magnifying glass for detailed inspection.</p>
+                </div>
+                
+                <div style="background: white; padding: 2rem; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
+                    <h3 style="color: #2d5016; margin-bottom: 1rem;">👃 Aroma Evaluation</h3>
+                    <p><strong>Time:</strong> 3-5 minutes<br><strong>Process:</strong> Break apart sample gently. Note initial scent, complexity of terpene profile, and overall pleasantness. Rest nose between samples.</p>
+                </div>
+                
+                <div style="background: white; padding: 2rem; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
+                    <h3 style="color: #2d5016; margin-bottom: 1rem;">🔥 Consumption Testing</h3>
+                    <p><strong>Time:</strong> 15-20 minutes<br><strong>Process:</strong> Use provided apparatus. Note initial flavor, smoothness, harshness, and aftertaste. Rate immediately after consumption.</p>
+                </div>
+                
+                <div style="background: white; padding: 2rem; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
+                    <h3 style="color: #2d5016; margin-bottom: 1rem;">⚡ Effects Documentation</h3>
+                    <p><strong>Time:</strong> 60-120 minutes<br><strong>Process:</strong> Monitor onset time, intensity, duration, and quality of effects. Complete evaluation within 2-hour window.</p>
+                </div>
+            </div>
+            
+            <div style="background: #fee2e2; padding: 2rem; border-radius: 20px; border-left: 4px solid #ef4444;">
+                <h4 style="color: #991b1b; margin-bottom: 1rem;">⚠️ Critical Judge Requirements</h4>
+                <ul style="color: #991b1b; padding-left: 1.5rem; line-height: 1.8;">
+                    <li><strong>Maintain sample anonymity</strong> at all times</li>
+                    <li><strong>Do not discuss samples</strong> with other judges</li>
+                    <li><strong>Complete all evaluations</strong> within deadline</li>
+                    <li><strong>Report any issues</strong> immediately to organizers</li>
+                    <li><strong>Use standardized scoring</strong> criteria consistently</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Mobile navigation toggle
+        function toggleMobileNav() {
+            const mobileNav = document.getElementById('mobileNav');
+            const navIcon = document.getElementById('navIcon');
+            
+            mobileNav.classList.toggle('active');
+            navIcon.textContent = mobileNav.classList.contains('active') ? '✕' : '☰';
+        }
+
+        // Start judging function
+        function startJudging(sampleId) {
+            alert(`Starting evaluation for ${sampleId}\n\nThis would open the detailed scoring interface with:\n\n• Visual Assessment (20 pts)\n• Aroma Profile (20 pts)\n• Flavor & Taste (20 pts)\n• Effects & Potency (20 pts)\n• Quality & Craft (20 pts)\n\nTotal: 100 points possible`);
+        }
+
+        // Smooth scrolling for navigation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const target = document.querySelector(targetId);
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Sample card animations on scroll
+        function animateOnScroll() {
+            const cards = document.querySelectorAll('.sample-card, .completed-card');
+            cards.forEach(card => {
+                const cardTop = card.getBoundingClientRect().top;
+                const cardVisible = 150;
+                
+                if (cardTop < window.innerHeight - cardVisible) {
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }
+            });
+        }
+
+        // Initialize cards for animation
+        document.querySelectorAll('.sample-card, .completed-card').forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(50px)';
+            card.style.transition = 'all 0.6s ease-out';
+        });
+
+        window.addEventListener('scroll', animateOnScroll);
+        animateOnScroll(); // Run on load
+
+        // Simulate countdown updates
+        setInterval(function() {
+            const daysCard = document.querySelector('.quick-stats .stat-card:nth-child(3) .card-value');
+            if (daysCard && Math.random() > 0.95) {
+                let days = parseInt(daysCard.textContent);
+                if (days > 0) {
+                    daysCard.textContent = days - 1;
+                }
+            }
+        }, 10000);
+    </script>
+</body>
+</html>
