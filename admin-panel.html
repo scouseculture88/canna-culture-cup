@@ -1,0 +1,967 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - CannaJudge</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f1f5f9;
+        }
+
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, #1e293b 0%, #2d5016 100%);
+            color: white;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #7dd3fc;
+        }
+
+        .admin-badge {
+            background: #ef4444;
+            padding: 0.25rem 0.75rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        /* Dashboard Header */
+        .dashboard-header {
+            background: linear-gradient(135deg, #1e40af 0%, #2d5016 50%, #dc2626 100%);
+            color: white;
+            padding: 60px 0 40px;
+        }
+
+        .admin-welcome h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .admin-welcome p {
+            opacity: 0.9;
+            font-size: 1.1rem;
+        }
+
+        /* Quick Stats */
+        .quick-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin: -20px auto 40px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #2d5016;
+            display: block;
+        }
+
+        .stat-label {
+            color: #666;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+        }
+
+        /* Main Content */
+        .main-content {
+            padding: 40px 0;
+        }
+
+        .admin-tabs {
+            display: flex;
+            background: white;
+            border-radius: 15px;
+            padding: 0.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            overflow-x: auto;
+        }
+
+        .tab-button {
+            padding: 1rem 1.5rem;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            border-radius: 10px;
+            font-weight: bold;
+            transition: all 0.3s;
+            white-space: nowrap;
+        }
+
+        .tab-button.active {
+            background: #2d5016;
+            color: white;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Control Cards */
+        .control-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .control-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+        }
+
+        .control-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+
+        .control-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .control-icon {
+            font-size: 2rem;
+        }
+
+        .control-title {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #2d5016;
+        }
+
+        .control-actions {
+            display: grid;
+            gap: 0.75rem;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+            text-align: center;
+        }
+
+        .btn-primary { background: #2d5016; color: white; }
+        .btn-success { background: #22c55e; color: white; }
+        .btn-warning { background: #f59e0b; color: white; }
+        .btn-danger { background: #ef4444; color: white; }
+        .btn-info { background: #06b6d4; color: white; }
+
+        .btn:hover { transform: scale(1.05); }
+
+        /* Tables */
+        .data-table {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+
+        .table-header {
+            background: #2d5016;
+            color: white;
+            padding: 1rem 1.5rem;
+            font-weight: bold;
+        }
+
+        .table-content {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        th {
+            background: #f8fafc;
+            font-weight: bold;
+            color: #2d5016;
+            position: sticky;
+            top: 0;
+        }
+
+        tr:hover {
+            background: #f8fafc;
+        }
+
+        .status-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .status-active { background: #dcfce7; color: #166534; }
+        .status-pending { background: #fef3c7; color: #92400e; }
+        .status-complete { background: #dbeafe; color: #1e40af; }
+        .status-paid { background: #dcfce7; color: #166534; }
+        .status-overdue { background: #fee2e2; color: #991b1b; }
+
+        /* Financial Dashboard */
+        .financial-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .financial-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .financial-header {
+            display: flex;
+            justify-content: between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .financial-icon {
+            font-size: 2rem;
+            margin-right: 1rem;
+        }
+
+        .financial-title {
+            color: #2d5016;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .financial-amount {
+            font-size: 2rem;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+
+        .amount-positive { color: #22c55e; }
+        .amount-negative { color: #ef4444; }
+        .amount-neutral { color: #2d5016; }
+
+        /* Mobile Navigation */
+        .mobile-nav-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 10px;
+        }
+
+        .mobile-nav {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: rgba(30, 41, 59, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem;
+            border-radius: 0 0 15px 15px;
+        }
+
+        .mobile-nav.active {
+            display: block;
+        }
+
+        .mobile-nav a {
+            display: block;
+            padding: 1rem;
+            color: white;
+            text-decoration: none;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            font-size: 1.1rem;
+        }
+
+        /* Touch-friendly admin controls */
+        .btn {
+            min-height: 44px;
+            touch-action: manipulation;
+            font-size: 0.95rem;
+        }
+
+        .admin-tabs {
+            overflow-x: scroll;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        @media (max-width: 768px) {
+            .mobile-nav-toggle { display: block; }
+            nav { position: relative; }
+
+            .dashboard-header {
+                padding: 40px 0 30px;
+                text-align: center;
+            }
+
+            .admin-welcome h1 {
+                font-size: 2rem;
+            }
+
+            .quick-stats {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1rem;
+                margin: -15px auto 30px;
+            }
+
+            .stat-card {
+                padding: 1rem;
+            }
+
+            .stat-value {
+                font-size: 1.5rem;
+            }
+
+            .control-grid { 
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .financial-grid { 
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .admin-tabs {
+                padding: 0.25rem;
+            }
+
+            .tab-button {
+                padding: 0.75rem 1rem;
+                font-size: 0.85rem;
+            }
+
+            .control-card {
+                padding: 1.5rem;
+            }
+
+            .control-actions {
+                gap: 0.75rem;
+            }
+
+            .data-table {
+                font-size: 0.9rem;
+            }
+
+            th, td {
+                padding: 0.75rem 0.5rem;
+                font-size: 0.85rem;
+            }
+
+            .table-content {
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            table {
+                min-width: 600px;
+            }
+
+            .financial-card {
+                padding: 1.5rem;
+            }
+
+            .financial-amount {
+                font-size: 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 0 15px;
+            }
+
+            .quick-stats {
+                grid-template-columns: 1fr;
+            }
+
+            .admin-welcome h1 {
+                font-size: 1.8rem;
+            }
+
+            .control-header {
+                flex-direction: column;
+                text-align: center;
+                gap: 0.5rem;
+            }
+
+            .control-icon {
+                font-size: 2.5rem;
+            }
+
+            .financial-header {
+                flex-direction: column;
+                text-align: center;
+                gap: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <nav class="container">
+            <div class="logo">🌿 CannaJudge</div>
+            <button class="mobile-nav-toggle" onclick="toggleMobileNav()">
+                <span id="navIcon">☰</span>
+            </button>
+            <div class="mobile-nav" id="mobileNav">
+                <a href="#overview" onclick="toggleMobileNav()">Overview</a>
+                <a href="#entries" onclick="toggleMobileNav()">Entries</a>
+                <a href="#judges" onclick="toggleMobileNav()">Judges</a>
+                <a href="#finances" onclick="toggleMobileNav()">Finances</a>
+                <a href="#reports" onclick="toggleMobileNav()">Reports</a>
+            </div>
+            <div style="display: flex; align-items: center; gap: 1rem;">
+                <span class="admin-badge">ADMIN</span>
+                <span>Competition Control</span>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Dashboard Header -->
+    <section class="dashboard-header">
+        <div class="container">
+            <div class="admin-welcome">
+                <h1>Admin Control Panel</h1>
+                <p>Complete competition management and oversight dashboard</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Quick Stats -->
+    <section class="container">
+        <div class="quick-stats">
+            <div class="stat-card">
+                <div class="stat-icon">📝</div>
+                <span class="stat-value">47</span>
+                <span class="stat-label">Total Entries</span>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">💰</div>
+                <span class="stat-value">£4,050</span>
+                <span class="stat-label">Total Revenue</span>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">⚖️</div>
+                <span class="stat-value">35</span>
+                <span class="stat-label">Active Judges</span>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">🏆</div>
+                <span class="stat-value">68%</span>
+                <span class="stat-label">Judging Complete</span>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">📊</div>
+                <span class="stat-value">£375</span>
+                <span class="stat-label">Net Profit</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <section class="main-content">
+        <div class="container">
+            <div class="admin-tabs">
+                <button class="tab-button active" onclick="showTab('overview')">Overview</button>
+                <button class="tab-button" onclick="showTab('entries')">Entry Management</button>
+                <button class="tab-button" onclick="showTab('judges')">Judge Control</button>
+                <button class="tab-button" onclick="showTab('finances')">Financial Center</button>
+                <button class="tab-button" onclick="showTab('reports')">Reports & Analytics</button>
+            </div>
+
+            <!-- Overview Tab -->
+            <div id="overview" class="tab-content active">
+                <div class="control-grid">
+                    <div class="control-card">
+                        <div class="control-header">
+                            <div class="control-icon">🎯</div>
+                            <div class="control-title">Competition Control</div>
+                        </div>
+                        <div class="control-actions">
+                            <button class="btn btn-success">Open Registration</button>
+                            <button class="btn btn-warning">Close Registration</button>
+                            <button class="btn btn-info">Start Judging Phase</button>
+                            <button class="btn btn-primary">Publish Results</button>
+                        </div>
+                    </div>
+
+                    <div class="control-card">
+                        <div class="control-header">
+                            <div class="control-icon">📧</div>
+                            <div class="control-title">Communication Center</div>
+                        </div>
+                        <div class="control-actions">
+                            <button class="btn btn-primary">Email All Competitors</button>
+                            <button class="btn btn-info">Email All Judges</button>
+                            <button class="btn btn-warning">Send Payment Reminders</button>
+                            <button class="btn btn-success">Announcement Broadcast</button>
+                        </div>
+                    </div>
+
+                    <div class="control-card">
+                        <div class="control-header">
+                            <div class="control-icon">📦</div>
+                            <div class="control-title">Sample Management</div>
+                        </div>
+                        <div class="control-actions">
+                            <button class="btn btn-primary">Generate Sample Codes</button>
+                            <button class="btn btn-info">Assign Judge Samples</button>
+                            <button class="btn btn-warning">Track Sample Status</button>
+                            <button class="btn btn-success">Export Sample Lists</button>
+                        </div>
+                    </div>
+
+                    <div class="control-card">
+                        <div class="control-header">
+                            <div class="control-icon">🏆</div>
+                            <div class="control-title">Results Management</div>
+                        </div>
+                        <div class="control-actions">
+                            <button class="btn btn-info">Calculate Rankings</button>
+                            <button class="btn btn-success">Generate Certificates</button>
+                            <button class="btn btn-primary">Export Results</button>
+                            <button class="btn btn-warning">Review Disputes</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Entry Management Tab -->
+            <div id="entries" class="tab-content">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+                    <h2 style="color: #2d5016;">Entry Management</h2>
+                    <div>
+                        <button class="btn btn-success" onclick="exportEntries()">Export All</button>
+                        <button class="btn btn-primary" onclick="addNewEntry()">Add Entry</button>
+                    </div>
+                </div>
+
+                <div class="data-table">
+                    <div class="table-header">
+                        All Competition Entries (47 total)
+                    </div>
+                    <div class="table-content">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Entry ID</th>
+                                    <th>Company</th>
+                                    <th>Product</th>
+                                    <th>Category</th>
+                                    <th>Payment</th>
+                                    <th>Product Status</th>
+                                    <th>Judge Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>GVG-001</strong></td>
+                                    <td>Green Valley Gardens</td>
+                                    <td>OG Kush Premium</td>
+                                    <td>Flower</td>
+                                    <td><span class="status-badge status-paid">Paid</span></td>
+                                    <td><span class="status-badge status-complete">Received</span></td>
+                                    <td><span class="status-badge status-complete">Complete</span></td>
+                                    <td>
+                                        <button class="btn btn-info" style="padding: 0.5rem;">Edit</button>
+                                        <button class="btn btn-success" style="padding: 0.5rem;">Results</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><strong>CC-002</strong></td>
+                                    <td>Crystal Clear</td>
+                                    <td>Live Rosin</td>
+                                    <td>Extracts</td>
+                                    <td><span class="status-badge status-pending">Pending</span></td>
+                                    <td><span class="status-badge status-pending">Awaiting</span></td>
+                                    <td><span class="status-badge status-pending">Pending</span></td>
+                                    <td>
+                                        <button class="btn btn-warning" style="padding: 0.5rem;">Follow Up</button>
+                                        <button class="btn btn-danger" style="padding: 0.5rem;">Remove</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><strong>HD-003</strong></td>
+                                    <td>Herbal Delights</td>
+                                    <td>CBD Gummies</td>
+                                    <td>Edibles</td>
+                                    <td><span class="status-badge status-paid">Paid</span></td>
+                                    <td><span class="status-badge status-active">In Transit</span></td>
+                                    <td><span class="status-badge status-pending">Pending</span></td>
+                                    <td>
+                                        <button class="btn btn-info" style="padding: 0.5rem;">Track</button>
+                                        <button class="btn btn-primary" style="padding: 0.5rem;">Update</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><strong>MH-004</strong></td>
+                                    <td>Mountain Hash Co</td>
+                                    <td>Bubble Hash</td>
+                                    <td>Hash</td>
+                                    <td><span class="status-badge status-paid">Paid</span></td>
+                                    <td><span class="status-badge status-complete">Received</span></td>
+                                    <td><span class="status-badge status-active">Judging</span></td>
+                                    <td>
+                                        <button class="btn btn-info" style="padding: 0.5rem;">Progress</button>
+                                        <button class="btn btn-success" style="padding: 0.5rem;">Assign</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Judge Management Tab -->
+            <div id="judges" class="tab-content">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+                    <h2 style="color: #2d5016;">Judge Management</h2>
+                    <div>
+                        <button class="btn btn-success">Add Judge</button>
+                        <button class="btn btn-info">Send Reminders</button>
+                    </div>
+                </div>
+
+                <div class="data-table">
+                    <div class="table-header">
+                        Judge Performance Dashboard
+                    </div>
+                    <div class="table-content">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Judge Name</th>
+                                    <th>Category</th>
+                                    <th>Assigned</th>
+                                    <th>Completed</th>
+                                    <th>Progress</th>
+                                    <th>Avg Score</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Sarah Thompson</strong></td>
+                                    <td>Flower</td>
+                                    <td>15</td>
+                                    <td>12</td>
+                                    <td>80%</td>
+                                    <td>86.4</td>
+                                    <td><span class="status-badge status-active">Active</span></td>
+                                    <td>
+                                        <button class="btn btn-info" style="padding: 0.5rem;">Contact</button>
+                                        <button class="btn btn-warning" style="padding: 0.5rem;">Remind</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Marcus Rodriguez</strong></td>
+                                    <td>Extracts</td>
+                                    <td>12</td>
+                                    <td>12</td>
+                                    <td>100%</td>
+                                    <td>91.2</td>
+                                    <td><span class="status-badge status-complete">Complete</span></td>
+                                    <td>
+                                        <button class="btn btn-success" style="padding: 0.5rem;">Review</button>
+                                        <button class="btn btn-info" style="padding: 0.5rem;">Thank</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Lisa Chen</strong></td>
+                                    <td>Edibles</td>
+                                    <td>8</td>
+                                    <td>3</td>
+                                    <td>37%</td>
+                                    <td>88.7</td>
+                                    <td><span class="status-badge status-overdue">Behind</span></td>
+                                    <td>
+                                        <button class="btn btn-warning" style="padding: 0.5rem;">Follow Up</button>
+                                        <button class="btn btn-danger" style="padding: 0.5rem;">Replace</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Financial Center Tab -->
+            <div id="finances" class="tab-content">
+                <h2 style="margin-bottom: 2rem; color: #2d5016;">Financial Overview</h2>
+                
+                <div class="financial-grid">
+                    <div class="financial-card">
+                        <div class="financial-header">
+                            <div class="financial-icon">💵</div>
+                            <div class="financial-title">Total Revenue</div>
+                        </div>
+                        <div class="financial-amount amount-positive">£4,050</div>
+                        <div style="font-size: 0.9rem; color: #666;">
+                            Entry Fees: £2,350<br>
+                            Sponsors: £1,500<br>
+                            Other: £200
+                        </div>
+                    </div>
+
+                    <div class="financial-card">
+                        <div class="financial-header">
+                            <div class="financial-icon">💸</div>
+                            <div class="financial-title">Total Expenses</div>
+                        </div>
+                        <div class="financial-amount amount-negative">£850</div>
+                        <div style="font-size: 0.9rem; color: #666;">
+                            Judge Fees: £420<br>
+                            Venue: £300<br>
+                            Admin: £130
+                        </div>
+                    </div>
+
+                    <div class="financial-card">
+                        <div class="financial-header">
+                            <div class="financial-icon">🏆</div>
+                            <div class="financial-title">Prize Pool</div>
+                        </div>
+                        <div class="financial-amount amount-neutral">£2,825</div>
+                        <div style="font-size: 0.9rem; color: #666;">
+                            1st Places: £1,500<br>
+                            2nd Places: £750<br>
+                            3rd Places: £375<br>
+                            Special: £200
+                        </div>
+                    </div>
+
+                    <div class="financial-card">
+                        <div class="financial-header">
+                            <div class="financial-icon">📈</div>
+                            <div class="financial-title">Net Profit</div>
+                        </div>
+                        <div class="financial-amount amount-positive">£375</div>
+                        <div style="font-size: 0.9rem; color: #666;">
+                            9.3% profit margin<br>
+                            Reserve fund maintained
+                        </div>
+                    </div>
+                </div>
+
+                <div class="control-grid">
+                    <div class="control-card">
+                        <div class="control-header">
+                            <div class="control-icon">💳</div>
+                            <div class="control-title">Payment Processing</div>
+                        </div>
+                        <div class="control-actions">
+                            <button class="btn btn-success">Process Refund</button>
+                            <button class="btn btn-warning">Send Invoice</button>
+                            <button class="btn btn-info">Payment Report</button>
+                            <button class="btn btn-primary">Financial Export</button>
+                        </div>
+                    </div>
+
+                    <div class="control-card">
+                        <div class="control-header">
+                            <div class="control-icon">🏦</div>
+                            <div class="control-title">Prize Distribution</div>
+                        </div>
+                        <div class="control-actions">
+                            <button class="btn btn-success">Calculate Payouts</button>
+                            <button class="btn btn-primary">Generate Payments</button>
+                            <button class="btn btn-info">Winner Notifications</button>
+                            <button class="btn btn-warning">Tax Documentation</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Reports Tab -->
+            <div id="reports" class="tab-content">
+                <h2 style="margin-bottom: 2rem; color: #2d5016;">Reports & Analytics</h2>
+                
+                <div class="control-grid">
+                    <div class="control-card">
+                        <div class="control-header">
+                            <div class="control-icon">📊</div>
+                            <div class="control-title">Competition Reports</div>
+                        </div>
+                        <div class="control-actions">
+                            <button class="btn btn-primary">Complete Results Report</button>
+                            <button class="btn btn-success">Judge Performance Report</button>
+                            <button class="btn btn-info">Financial Summary</button>
+                            <button class="btn btn-warning">Entry Statistics</button>
+                        </div>
+                    </div>
+
+                    <div class="control-card">
+                        <div class="control-header">
+                            <div class="control-icon">📈</div>
+                            <div class="control-title">Analytics Dashboard</div>
+                        </div>
+                        <div class="control-actions">
+                            <button class="btn btn-info">Score Distribution Analysis</button>
+                            <button class="btn btn-primary">Category Trends</button>
+                            <button class="btn btn-success">Judge Consistency Check</button>
+                            <button class="btn btn-warning">Outlier Detection</button>
+                        </div>
+                    </div>
+
+                    <div class="control-card">
+                        <div class="control-header">
+                            <div class="control-icon">📋</div>
+                            <div class="control-title">Export Tools</div>
+                        </div>
+                        <div class="control-actions">
+                            <button class="btn btn-primary">CSV Export</button>
+                            <button class="btn btn-success">PDF Reports</button>
+                            <button class="btn btn-info">Excel Workbook</button>
+                            <button class="btn btn-warning">Certificates Batch</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Mobile navigation toggle
+        function toggleMobileNav() {
+            const mobileNav = document.getElementById('mobileNav');
+            const navIcon = document.getElementById('navIcon');
+            
+            mobileNav.classList.toggle('active');
+            navIcon.textContent = mobileNav.classList.contains('active') ? '✕' : '☰';
+        }
+
+        // Tab functionality
+        function showTab(tabName) {
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            document.querySelectorAll('.tab-button').forEach(button => {
+                button.classList.remove('active');
+            });
+            
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        // Admin functions
+        function exportEntries() {
+            alert('Exporting all entries to CSV...\n\nColumns: Entry ID, Company, Product, Category, Payment Status, Judge Progress, Scores');
+        }
+
+        function addNewEntry() {
+            alert('New Entry Form:\n\n- Company details\n- Product information\n- Category selection\n- Payment processing\n- Sample requirements');
+        }
+
+        // Button interactions
+        document.querySelectorAll('.btn').forEach(button => {
+            if (!button.onclick) {
+                button.addEventListener('click', function() {
+                    const action = this.textContent.toLowerCase();
+                    
+                    if (action.includes('email') || action.includes('send') || action.includes('remind')) {
+                        alert(`📧 ${this.textContent} system would execute here\n\nFeatures:\n- Template selection\n- Recipient targeting\n- Delivery tracking`);
+                    } else if (action.includes('export') || action.includes('report')) {
+                        alert(`📊 ${this.textContent} would generate here\n\nFormats:\n- PDF reports\n- CSV data\n- Excel workbooks`);
+                    } else if (action.includes('calculate') || action.includes('generate')) {
+                        alert(`🔄 ${this.textContent} processing...\n\nThis would execute the automated ${action} functionality`);
+                    } else {
+                        alert(`⚙️ ${this.textContent} functionality would execute here`);
+                    }
+                });
+            }
+        });
+
+        // Real-time stats updates (simulation)
+        function updateLiveStats() {
+            const entries = document.querySelector('.stat-value');
+            if (Math.random() > 0.8) {
+                let current = parseInt(entries.textContent);
+                entries.textContent = current + 1;
+            }
+        }
+        
+        setInterval(updateLiveStats, 10000);
+    </script>
+</body>
+</html>
