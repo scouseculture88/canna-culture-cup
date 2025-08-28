@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CannaJudge - Premium Cannabis Competition Platform</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, #2d5016 0%, #4a7c59 100%);
+            color: white;
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #7dd3fc;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #7dd3fc;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #1e3a8a 0%, #2d5016 50%, #7c2d12 100%);
+            color: white;
+            padding: 120px 0 80px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><radialGradient id="g"><stop offset="0%" stop-color="rgba(255,255,255,0.1)"/><stop offset="100%" stop-color="rgba(255,255,255,0)"/></radialGradient></defs><circle cx="20" cy="20" r="2" fill="url(%23g)"><animate attributeName="opacity" values="0;1;0" dur="3s" repeatCount="indefinite"/></circle><circle cx="80" cy="40" r="1.5" fill="url(%23g)"><animate attributeName="opacity" values="0;1;0" dur="4s" repeatCount="indefinite" begin="1s"/></circle><circle cx="40" cy="80" r="2.5" fill="url(%23g)"><animate attributeName="opacity" values="0;1;0" dur="5s" repeatCount="indefinite" begin="2s"/></circle></svg>') repeat;
+            opacity: 0.3;
+            animation: float 20s linear infinite;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px) translateX(0px); }
+            25% { transform: translateY(-20px) translateX(10px); }
+            50% { transform: translateY(0px) translateX(-10px); }
+            75% { transform: translateY(20px) translateX(5px); }
+            100% { transform: translateY(0px) translateX(0px); }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(45deg, #f59e0b, #eab308);
+            color: white;
+            padding: 15px 30px;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            transition: all 0.3s;
+            box-shadow: 0 10px 20px rgba(245, 158, 11, 0.3);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(245, 158, 11, 0.4);
+        }
+
+        /* Applications Section */
+        .applications {
+            padding: 80px 0;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: #2d5016;
+        }
+
+        .app-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .app-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+            border: 1px solid rgba(45, 80, 22, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .app-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #f59e0b, #eab308, #22c55e);
+        }
+
+        .app-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+
+        .app-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .app-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #2d5016;
+        }
+
+        .app-card p {
+            margin-bottom: 1.5rem;
+            color: #666;
+        }
+
+        .app-button {
+            background: linear-gradient(45deg, #2d5016, #4a7c59);
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+            width: 100%;
+        }
+
+        .app-button:hover {
+            background: linear-gradient(45deg, #1f3a0f, #3d6b4a);
+            transform: scale(1.05);
+        }
+
+        /* Features Section */
+        .features {
+            padding: 80px 0;
+            background: white;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .feature-card {
+            text-align: center;
+            padding: 2rem;
+            border-radius: 15px;
+            transition: all 0.3s;
+        }
+
+        .feature-card:hover {
+            background: #f8fafc;
+            transform: translateY(-5px);
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: #2d5016;
+        }
+
+        /* Footer */
+        footer {
+            background: #1f2937;
+            color: white;
+            padding: 3rem 0;
+            text-align: center;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            background: white;
+            margin: 5% auto;
+            padding: 2rem;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 600px;
+            position: relative;
+            animation: modalSlide 0.3s ease-out;
+        }
+
+        @keyframes modalSlide {
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .close {
+            position: absolute;
+            right: 15px;
+            top: 15px;
+            font-size: 28px;
+            cursor: pointer;
+            color: #666;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #2d5016;
+            font-weight: bold;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #2d5016;
+        }
+
+        .submit-btn {
+            background: linear-gradient(45deg, #2d5016, #4a7c59);
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            width: 100%;
+            font-size: 1.1rem;
+            transition: all 0.3s;
+        }
+
+        .submit-btn:hover {
+            background: linear-gradient(45deg, #1f3a0f, #3d6b4a);
+            transform: scale(1.02);
+        }
+
+        /* Mobile Navigation */
+        .mobile-nav-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .mobile-nav {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: rgba(45, 80, 22, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem;
+        }
+
+        .mobile-nav.active {
+            display: block;
+        }
+
+        .mobile-nav a {
+            display: block;
+            padding: 1rem;
+            color: white;
+            text-decoration: none;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            font-size: 1.1rem;
+        }
+
+        .mobile-nav a:hover {
+            background: rgba(255,255,255,0.1);
+        }
+
+        /* Touch-friendly buttons */
+        .app-button,
+        .cta-button {
+            min-height: 48px;
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        /* Form improvements for mobile */
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            min-height: 48px;
+            font-size: 16px; /* Prevents zoom on iOS */
+        }
+
+        @media (max-width: 768px) {
+            /* Header adjustments */
+            .nav-links { 
+                display: none; 
+            }
+            
+            .mobile-nav-toggle { 
+                display: block; 
+            }
+
+            nav {
+                position: relative;
+            }
+
+            /* Hero section mobile */
+            .hero {
+                padding: 100px 0 60px;
+            }
+
+            .hero h1 { 
+                font-size: 2.5rem;
+                line-height: 1.2;
+            }
+
+            .hero p {
+                font-size: 1.1rem;
+                padding: 0 1rem;
+            }
+
+            /* Applications grid mobile */
+            .app-grid { 
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .app-card {
+                margin: 0 0.5rem;
+            }
+
+            /* Features grid mobile */
+            .features-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1rem;
+            }
+
+            .feature-card {
+                padding: 1.5rem 1rem;
+            }
+
+            .feature-icon {
+                font-size: 2rem;
+            }
+
+            /* Modal improvements for mobile */
+            .modal-content {
+                margin: 10% auto;
+                width: 95%;
+                max-height: 80vh;
+                overflow-y: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            /* Form spacing on mobile */
+            .form-group {
+                margin-bottom: 1.5rem;
+            }
+
+            /* Touch targets */
+            .close {
+                font-size: 32px;
+                padding: 10px;
+                top: 10px;
+                right: 10px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 0 15px;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .app-card {
+                margin: 0;
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <nav class="container">
+            <div class="logo">🌿 CannaJudge</div>
+            <button class="mobile-nav-toggle" onclick="toggleMobileNav()">
+                <span id="navIcon">☰</span>
+            </button>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#applications">Apply</a></li>
+                <li><a href="#features">Features</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <div class="mobile-nav" id="mobileNav">
+                <a href="#home" onclick="toggleMobileNav()">Home</a>
+                <a href="#applications" onclick="toggleMobileNav()">Apply</a>
+                <a href="#features" onclick="toggleMobileNav()">Features</a>
+                <a href="#contact" onclick="toggleMobileNav()">Contact</a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Premium Cannabis Competition Platform</h1>
+                <p>Join the most prestigious cannabis judging community. Connect experts, cultivators, and enthusiasts in fair, transparent competitions.</p>
+                <a href="#applications" class="cta-button">Get Started Today</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Applications Section -->
+    <section class="applications" id="applications">
+        <div class="container">
+            <h2 class="section-title">Join Our Community</h2>
+            <div class="app-grid">
+                <div class="app-card">
+                    <div class="app-icon">🏆</div>
+                    <h3>Enter Competition</h3>
+                    <p>Submit your premium cannabis products for professional evaluation. Showcase your cultivation expertise and compete for recognition in the community.</p>
+                    <button class="app-button" onclick="openModal('enter')">Apply to Enter</button>
+                </div>
+
+                <div class="app-card">
+                    <div class="app-icon">🤝</div>
+                    <h3>Become a Sponsor</h3>
+                    <p>Partner with us to support the cannabis community. Gain visibility, connect with industry leaders, and help elevate competition standards.</p>
+                    <button class="app-button" onclick="openModal('sponsor')">Apply to Sponsor</button>
+                </div>
+
+                <div class="app-card">
+                    <div class="app-icon">⚖️</div>
+                    <h3>Join as Judge</h3>
+                    <p>Share your expertise and help maintain the highest standards in cannabis evaluation. Become part of our certified judging panel.</p>
+                    <button class="app-button" onclick="openModal('judge')">Apply to Judge</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="features">
+        <div class="container">
+            <h2 class="section-title">Why Choose CannaJudge?</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🔒</div>
+                    <h3>Secure & Anonymous</h3>
+                    <p>Advanced blind judging system ensures fair and unbiased evaluations</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <h3>Data-Driven Results</h3>
+                    <p>Comprehensive analytics and detailed scoring breakdowns</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🌐</div>
+                    <h3>Global Community</h3>
+                    <p>Connect with cannabis professionals worldwide</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🏅</div>
+                    <h3>Industry Recognition</h3>
+                    <p>Prestigious awards that elevate your brand and products</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contact">
+        <div class="container">
+            <p>&copy; 2025 CannaJudge. Elevating cannabis excellence through fair competition.</p>
+        </div>
+    </footer>
+
+    <!-- Modals -->
+    <div id="enterModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Enter Competition</h2>
+            <form id="enterForm">
+                <div class="form-group">
+                    <label for="companyName">Company/Brand Name</label>
+                    <input type="text" id="companyName" name="companyName" required>
+                </div>
+                <div class="form-group">
+                    <label for="contactPerson">Contact Person</label>
+                    <input type="text" id="contactPerson" name="contactPerson" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="productType">Product Category</label>
+                    <select id="productType" name="productType" required>
+                        <option value="">Select Category</option>
+                        <option value="flower">Flower</option>
+                        <option value="concentrate">Concentrates</option>
+                        <option value="edible">Edibles</option>
+                        <option value="topical">Topicals</option>
+                        <option value="vape">Vape Products</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="experience">Years in Cannabis Industry</label>
+                    <select id="experience" name="experience" required>
+                        <option value="">Select Experience</option>
+                        <option value="0-1">0-1 years</option>
+                        <option value="2-5">2-5 years</option>
+                        <option value="6-10">6-10 years</option>
+                        <option value="10+">10+ years</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="description">Product Description</label>
+                    <textarea id="description" name="description" rows="4" placeholder="Tell us about your product..."></textarea>
+                </div>
+                <button type="submit" class="submit-btn">Submit Entry Application</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="sponsorModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Become a Sponsor</h2>
+            <form id="sponsorForm">
+                <div class="form-group">
+                    <label for="sponsorCompany">Company Name</label>
+                    <input type="text" id="sponsorCompany" name="sponsorCompany" required>
+                </div>
+                <div class="form-group">
+                    <label for="sponsorContact">Primary Contact</label>
+                    <input type="text" id="sponsorContact" name="sponsorContact" required>
+                </div>
+                <div class="form-group">
+                    <label for="sponsorEmail">Email Address</label>
+                    <input type="email" id="sponsorEmail" name="sponsorEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="sponsorshipLevel">Sponsorship Level</label>
+                    <select id="sponsorshipLevel" name="sponsorshipLevel" required>
+                        <option value="">Select Level</option>
+                        <option value="platinum">Platinum ($10,000+)</option>
+                        <option value="gold">Gold ($5,000-$9,999)</option>
+                        <option value="silver">Silver ($2,500-$4,999)</option>
+                        <option value="bronze">Bronze ($1,000-$2,499)</option>
+                        <option value="custom">Custom Package</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="sponsorGoals">Sponsorship Goals</label>
+                    <textarea id="sponsorGoals" name="sponsorGoals" rows="4" placeholder="What do you hope to achieve through sponsorship?"></textarea>
+                </div>
+                <button type="submit" class="submit-btn">Submit Sponsorship Application</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="judgeModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Join as Judge</h2>
+            <form id="judgeForm">
+                <div class="form-group">
+                    <label for="judgeName">Full Name</label>
+                    <input type="text" id="judgeName" name="judgeName" required>
+                </div>
+                <div class="form-group">
+                    <label for="judgeEmail">Email Address</label>
+                    <input type="email" id="judgeEmail" name="judgeEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="judgeExperience">Cannabis Industry Experience</label>
+                    <select id="judgeExperience" name="judgeExperience" required>
+                        <option value="">Select Experience</option>
+                        <option value="5-10">5-10 years</option>
+                        <option value="10-15">10-15 years</option>
+                        <option value="15+">15+ years</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="expertise">Area of Expertise</label>
+                    <select id="expertise" name="expertise" required>
+                        <option value="">Select Expertise</option>
+                        <option value="cultivation">Cultivation</option>
+                        <option value="extraction">Extraction/Processing</option>
+                        <option value="retail">Retail/Dispensary</option>
+                        <option value="testing">Testing/Quality</option>
+                        <option value="genetics">Genetics/Breeding</option>
+                        <option value="compliance">Compliance/Legal</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="certifications">Relevant Certifications</label>
+                    <textarea id="certifications" name="certifications" rows="3" placeholder="List any relevant certifications or qualifications..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="judgeMotivation">Why do you want to be a judge?</label>
+                    <textarea id="judgeMotivation" name="judgeMotivation" rows="4" placeholder="Tell us about your motivation and what you bring to the judging panel..."></textarea>
+                </div>
+                <button type="submit" class="submit-btn">Submit Judge Application</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Modal functionality
+        function openModal(type) {
+            const modal = document.getElementById(type + 'Modal');
+            modal.style.display = 'block';
+        }
+
+        // Close modals
+        document.querySelectorAll('.close').forEach(closeBtn => {
+            closeBtn.onclick = function() {
+                this.closest('.modal').style.display = 'none';
+            }
+        });
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.style.display = 'none';
+            }
+        }
+
+        // Mobile navigation toggle
+        function toggleMobileNav() {
+            const mobileNav = document.getElementById('mobileNav');
+            const navIcon = document.getElementById('navIcon');
+            
+            mobileNav.classList.toggle('active');
+            navIcon.textContent = mobileNav.classList.contains('active') ? '✕' : '☰';
+        }
+
+        // Form submissions
+        document.getElementById('enterForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Thank you for your entry application! We\'ll review your submission and get back to you within 48 hours.');
+            document.getElementById('enterModal').style.display = 'none';
+            this.reset();
+        });
+
+        document.getElementById('sponsorForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Thank you for your sponsorship interest! Our partnership team will contact you within 24 hours to discuss opportunities.');
+            document.getElementById('sponsorModal').style.display = 'none';
+            this.reset();
+        });
+
+        document.getElementById('judgeForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Thank you for applying to be a judge! We\'ll review your qualifications and experience, then reach out within one week.');
+            document.getElementById('judgeModal').style.display = 'none';
+            this.reset();
+        });
+
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>
