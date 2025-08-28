@@ -1,0 +1,1390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Entries - CannaJudge</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f8fafc;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, #2d5016 0%, #4a7c59 100%);
+            color: white;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #7dd3fc;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #7dd3fc;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            background: #7dd3fc;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #2d5016;
+        }
+
+        /* Dashboard Header */
+        .dashboard-header {
+            background: linear-gradient(135deg, #1e3a8a 0%, #2d5016 50%, #7c2d12 100%);
+            color: white;
+            padding: 60px 0 40px;
+        }
+
+        .welcome-section {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .welcome-text h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .welcome-text p {
+            opacity: 0.9;
+            font-size: 1.1rem;
+        }
+
+        .quick-stats {
+            background: rgba(255,255,255,0.1);
+            padding: 1.5rem;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            text-align: center;
+        }
+
+        .quick-stat {
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-number {
+            font-size: 1.8rem;
+            font-weight: bold;
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        /* Status Cards */
+        .status-overview {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: -20px auto 40px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .status-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .status-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+        }
+
+        .status-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .status-title {
+            font-size: 1.1rem;
+            color: #2d5016;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .status-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #666;
+        }
+
+        /* Main Content */
+        .main-content {
+            padding: 40px 0;
+        }
+
+        .dashboard-tabs {
+            display: flex;
+            background: white;
+            border-radius: 15px;
+            padding: 0.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            overflow-x: auto;
+        }
+
+        .tab-button {
+            padding: 1rem 1.5rem;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            border-radius: 10px;
+            font-weight: bold;
+            transition: all 0.3s;
+            white-space: nowrap;
+        }
+
+        .tab-button.active {
+            background: #2d5016;
+            color: white;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Entry Cards */
+        .entries-grid {
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .entry-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .entry-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+        }
+
+        .entry-pending::before { background: linear-gradient(90deg, #f59e0b, #eab308); }
+        .entry-approved::before { background: linear-gradient(90deg, #22c55e, #16a34a); }
+        .entry-judging::before { background: linear-gradient(90deg, #8b5cf6, #7c3aed); }
+        .entry-complete::before { background: linear-gradient(90deg, #06b6d4, #0891b2); }
+
+        .entry-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+
+        .entry-header {
+            display: grid;
+            grid-template-columns: 1fr auto auto;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .entry-info h3 {
+            color: #2d5016;
+            margin-bottom: 0.25rem;
+        }
+
+        .entry-info p {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .entry-id {
+            background: #f8fafc;
+            padding: 0.5rem 1rem;
+            border-radius: 10px;
+            font-family: monospace;
+            font-weight: bold;
+            color: #2d5016;
+        }
+
+        .status-badge {
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .status-pending { background: #fef3c7; color: #92400e; }
+        .status-approved { background: #dcfce7; color: #166534; }
+        .status-judging { background: #e0e7ff; color: #3730a3; }
+        .status-complete { background: #cffafe; color: #0f766e; }
+
+        .entry-progress {
+            margin-bottom: 1.5rem;
+        }
+
+        .progress-steps {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .progress-step {
+            text-align: center;
+            position: relative;
+        }
+
+        .step-circle {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: #e2e8f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 0.5rem;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .step-circle.completed {
+            background: #22c55e;
+            color: white;
+        }
+
+        .step-circle.active {
+            background: #f59e0b;
+            color: white;
+        }
+
+        .step-label {
+            font-size: 0.7rem;
+            color: #666;
+        }
+
+        .entry-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .detail-item {
+            background: #f8fafc;
+            padding: 1rem;
+            border-radius: 10px;
+        }
+
+        .detail-label {
+            font-size: 0.8rem;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.25rem;
+        }
+
+        .detail-value {
+            font-weight: bold;
+            color: #2d5016;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .btn-primary { background: #2d5016; color: white; }
+        .btn-success { background: #22c55e; color: white; }
+        .btn-warning { background: #f59e0b; color: white; }
+        .btn-info { background: #06b6d4; color: white; }
+        .btn-outline { background: transparent; border: 2px solid #2d5016; color: #2d5016; }
+
+        .btn:hover { transform: scale(1.05); }
+
+        /* Results Section */
+        .results-card {
+            background: linear-gradient(135deg, #2d5016, #4a7c59);
+            color: white;
+            padding: 2rem;
+            border-radius: 20px;
+            margin-bottom: 1.5rem;
+        }
+
+        .results-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .final-score {
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .score-breakdown {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .score-item {
+            background: rgba(255,255,255,0.1);
+            padding: 1rem;
+            border-radius: 10px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+        }
+
+        .score-category {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            margin-bottom: 0.25rem;
+        }
+
+        .score-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .ranking {
+            background: rgba(255,255,255,0.1);
+            padding: 1rem;
+            border-radius: 10px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+        }
+
+        .rank-position {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 0.25rem;
+        }
+
+        /* Notifications */
+        .notification-panel {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .notification-header {
+            background: #2d5016;
+            color: white;
+            padding: 1rem 1.5rem;
+            font-weight: bold;
+        }
+
+        .notification-list {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .notification-item {
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid #e2e8f0;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            transition: background 0.3s;
+        }
+
+        .notification-item:hover {
+            background: #f8fafc;
+        }
+
+        .notification-item:last-child {
+            border-bottom: none;
+        }
+
+        .notification-icon {
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+
+        .notification-content {
+            flex-grow: 1;
+        }
+
+        .notification-title {
+            font-weight: bold;
+            color: #2d5016;
+            margin-bottom: 0.25rem;
+        }
+
+        .notification-message {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .notification-time {
+            font-size: 0.8rem;
+            color: #9ca3af;
+            white-space: nowrap;
+        }
+
+        /* Payment Section */
+        .payment-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+
+        .payment-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .payment-total {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #2d5016;
+        }
+
+        .payment-status {
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-weight: bold;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+        }
+
+        .payment-breakdown {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .payment-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            background: #f8fafc;
+            border-radius: 10px;
+        }
+
+        .payment-item-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .category-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            color: white;
+        }
+
+        .flower-bg { background: #22c55e; }
+        .extract-bg { background: #f59e0b; }
+        .edible-bg { background: #ef4444; }
+        .hash-bg { background: #8b5cf6; }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            background: white;
+            margin: 5% auto;
+            padding: 2rem;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 600px;
+            position: relative;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .close {
+            position: absolute;
+            right: 15px;
+            top: 15px;
+            font-size: 28px;
+            cursor: pointer;
+            color: #666;
+        }
+
+        /* Mobile Navigation */
+        .mobile-nav-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .mobile-nav {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: rgba(45, 80, 22, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem;
+            border-radius: 0 0 15px 15px;
+        }
+
+        .mobile-nav.active {
+            display: block;
+        }
+
+        .mobile-nav a {
+            display: block;
+            padding: 1rem;
+            color: white;
+            text-decoration: none;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            font-size: 1.1rem;
+        }
+
+        /* Touch-friendly elements */
+        .btn,
+        .tab-button,
+        .status-badge {
+            min-height: 44px;
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .modal-content {
+            -webkit-overflow-scrolling: touch;
+        }
+
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .mobile-nav-toggle { display: block; }
+            nav { position: relative; }
+
+            .welcome-section { 
+                grid-template-columns: 1fr; 
+                text-align: center;
+                gap: 1.5rem;
+            }
+            
+            .entry-header { 
+                grid-template-columns: 1fr; 
+                gap: 1rem;
+                text-align: center;
+            }
+            
+            .entry-details { 
+                grid-template-columns: repeat(2, 1fr);
+                gap: 0.75rem;
+            }
+            
+            .action-buttons { 
+                flex-direction: column;
+                gap: 0.75rem;
+            }
+
+            .status-overview {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1rem;
+            }
+
+            .dashboard-tabs {
+                padding: 0.25rem;
+            }
+
+            .tab-button {
+                padding: 0.75rem 1rem;
+                font-size: 0.9rem;
+            }
+
+            .modal-content {
+                margin: 5% auto;
+                width: 95%;
+                padding: 1.5rem;
+            }
+
+            .entry-card {
+                padding: 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .dashboard-header {
+                padding: 40px 0 30px;
+            }
+
+            .welcome-text h1 {
+                font-size: 2rem;
+            }
+
+            .entry-details {
+                grid-template-columns: 1fr;
+            }
+
+            .status-overview {
+                grid-template-columns: 1fr;
+            }
+
+            .quick-stats {
+                padding: 0.75rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <nav class="container">
+            <div class="logo">🌿 CannaJudge</div>
+            <button class="mobile-nav-toggle" onclick="toggleMobileNav()">
+                <span id="navIcon">☰</span>
+            </button>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="#entries">My Entries</a></li>
+                <li><a href="#payments">Payments</a></li>
+                <li><a href="#results">Results</a></li>
+                <li><a href="#notifications">Updates</a></li>
+            </ul>
+            <div class="mobile-nav" id="mobileNav">
+                <a href="index.html" onclick="toggleMobileNav()">Home</a>
+                <a href="#entries" onclick="toggleMobileNav()">My Entries</a>
+                <a href="#payments" onclick="toggleMobileNav()">Payments</a>
+                <a href="#results" onclick="toggleMobileNav()">Results</a>
+                <a href="#notifications" onclick="toggleMobileNav()">Updates</a>
+            </div>
+            <div class="user-info">
+                <div class="user-avatar">GV</div>
+                <span>Green Valley Gardens</span>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Dashboard Header -->
+    <section class="dashboard-header">
+        <div class="container">
+            <div class="welcome-section">
+                <div class="welcome-text">
+                    <h1>Welcome back, Green Valley!</h1>
+                    <p>Track your competition entries, payments, and results all in one place</p>
+                </div>
+                <div class="quick-stats">
+                    <div class="quick-stat">
+                        <span class="stat-number">3</span>
+                        <span class="stat-label">Active Entries</span>
+                    </div>
+                    <div class="quick-stat">
+                        <span class="stat-number">2</span>
+                        <span class="stat-label">In Judging</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Status Overview -->
+    <section class="container">
+        <div class="status-overview">
+            <div class="status-card">
+                <div class="status-icon">💰</div>
+                <div class="status-title">Payment Status</div>
+                <div class="status-value">£150 Paid</div>
+            </div>
+            <div class="status-card">
+                <div class="status-icon">📦</div>
+                <div class="status-title">Products Received</div>
+                <div class="status-value">3 of 3</div>
+            </div>
+            <div class="status-card">
+                <div class="status-icon">⚖️</div>
+                <div class="status-title">Judging Progress</div>
+                <div class="status-value">67%</div>
+            </div>
+            <div class="status-card">
+                <div class="status-icon">🏆</div>
+                <div class="status-title">Results Available</div>
+                <div class="status-value">1 of 3</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Dashboard Content -->
+    <section class="main-content">
+        <div class="container">
+            <div class="dashboard-tabs">
+                <button class="tab-button active" onclick="showTab('entries')">My Entries</button>
+                <button class="tab-button" onclick="showTab('payments')">Payment Center</button>
+                <button class="tab-button" onclick="showTab('results')">Results</button>
+                <button class="tab-button" onclick="showTab('notifications')">Notifications</button>
+            </div>
+
+            <!-- My Entries Tab -->
+            <div id="entries" class="tab-content active">
+                <h2 style="margin-bottom: 2rem; color: #2d5016;">Competition Entries</h2>
+                
+                <div class="entries-grid">
+                    <!-- Entry 1 - Complete -->
+                    <div class="entry-card entry-complete">
+                        <div class="entry-header">
+                            <div class="entry-info">
+                                <h3>OG Kush Premium</h3>
+                                <p>Category: Flower | Submitted: Aug 15, 2025</p>
+                            </div>
+                            <div class="entry-id">GVG-001</div>
+                            <div class="status-badge status-complete">Complete</div>
+                        </div>
+                        
+                        <div class="entry-progress">
+                            <div class="progress-steps">
+                                <div class="progress-step">
+                                    <div class="step-circle completed">✓</div>
+                                    <div class="step-label">Submitted</div>
+                                </div>
+                                <div class="progress-step">
+                                    <div class="step-circle completed">✓</div>
+                                    <div class="step-label">Paid</div>
+                                </div>
+                                <div class="progress-step">
+                                    <div class="step-circle completed">✓</div>
+                                    <div class="step-label">Received</div>
+                                </div>
+                                <div class="progress-step">
+                                    <div class="step-circle completed">✓</div>
+                                    <div class="step-label">Judged</div>
+                                </div>
+                                <div class="progress-step">
+                                    <div class="step-circle completed">✓</div>
+                                    <div class="step-label">Results</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="entry-details">
+                            <div class="detail-item">
+                                <div class="detail-label">Product Weight</div>
+                                <div class="detail-value">28.7g ✓</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-label">Judge Count</div>
+                                <div class="detail-value">30 judges</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-label">Final Score</div>
+                                <div class="detail-value">87.3/100</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-label">Ranking</div>
+                                <div class="detail-value">2nd Place 🥈</div>
+                            </div>
+                        </div>
+
+                        <div class="action-buttons">
+                            <button class="btn btn-success" onclick="viewResults('GVG-001')">View Full Results</button>
+                            <button class="btn btn-info">Download Certificate</button>
+                            <button class="btn btn-outline">Judge Feedback</button>
+                        </div>
+                    </div>
+
+                    <!-- Entry 2 - In Judging -->
+                    <div class="entry-card entry-judging">
+                        <div class="entry-header">
+                            <div class="entry-info">
+                                <h3>Purple Haze Live Rosin</h3>
+                                <p>Category: Extracts | Submitted: Aug 20, 2025</p>
+                            </div>
+                            <div class="entry-id">GVG-002</div>
+                            <div class="status-badge status-judging">In Judging</div>
+                        </div>
+                        
+                        <div class="entry-progress">
+                            <div class="progress-steps">
+                                <div class="progress-step">
+                                    <div class="step-circle completed">✓</div>
+                                    <div class="step-label">Submitted</div>
+                                </div>
+                                <div class="progress-step">
+                                    <div class="step-circle completed">✓</div>
+                                    <div class="step-label">Paid</div>
+                                </div>
+                                <div class="progress-step">
+                                    <div class="step-circle completed">✓</div>
+                                    <div class="step-label">Received</div>
+                                </div>
+                                <div class="progress-step">
+                                    <div class="step-circle active">⏱</div>
+                                    <div class="step-label">Judging</div>
+                                </div>
+                                <div class="progress-step">
+                                    <div class="step-circle">5</div>
+                                    <div class="step-label">Results</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="entry-details">
+                            <div class="detail-item">
+                                <div class="detail-label">Product Weight</div>
+                                <div class="detail-value">10.3g ✓</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-label">Judges Assigned</div>
+                                <div class="detail-value">10 judges</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-label">Completed Evaluations</div>
+                                <div class="detail-value">7 of 10</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-label">Est. Results</div>
+                                <div class="detail-value">Sept 5, 2025</div>
+                            </div>
+                        </div>
+
+                        <div class="action-buttons">
+                            <button class="btn btn-info">Track Progress</button>
+                            <button class="btn btn-outline">Message Organizers</button>
+                        </div>
+                    </div>
+
+                    <!-- Entry 3 - Pending -->
+                    <div class="entry-card entry-pending">
+                        <div class="entry-header">
+                            <div class="entry-info">
+                                <h3>Premium CBD Gummies</h3>
+                                <p>Category: Edibles | Submitted: Aug 25, 2025</p>
+                            </div>
+                            <div class="entry-id">GVG-003</div>
+                            <div class="status-badge status-pending">Pending Product</div>
+                        </div>
+                        
+                        <div class="entry-progress">
+                            <div class="progress-steps">
+                                <div class="progress-step">
+                                    <div class="step-circle completed">✓</div>
+                                    <div class="step-label">Submitted</div>
+                                </div>
+                                <div class="progress-step">
+                                    <div class="step-circle completed">✓</div>
+                                    <div class="step-label">Paid</div>
+                                </div>
+                                <div class="progress-step">
+                                    <div class="step-circle active">📦</div>
+                                    <div class="step-label">Shipping</div>
+                                </div>
+                                <div class="progress-step">
+                                    <div class="step-circle">4</div>
+                                    <div class="step-label">Judging</div>
+                                </div>
+                                <div class="progress-step">
+                                    <div class="step-circle">5</div>
+                                    <div class="step-label">Results</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="entry-details">
+                            <div class="detail-item">
+                                <div class="detail-label">Product Requirement</div>
+                                <div class="detail-value">20 pieces needed</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-label">Shipping Deadline</div>
+                                <div class="detail-value">Sept 1, 2025</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-label">Tracking Number</div>
+                                <div class="detail-value">GV240825001</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-label">Est. Delivery</div>
+                                <div class="detail-value">Aug 30, 2025</div>
+                            </div>
+                        </div>
+
+                        <div class="action-buttons">
+                            <button class="btn btn-warning">Update Tracking</button>
+                            <button class="btn btn-primary">Upload Lab Results</button>
+                            <button class="btn btn-outline">Shipping Support</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="text-align: center; margin-top: 2rem;">
+                    <button class="btn btn-primary" onclick="openModal('newEntry')">Submit New Entry</button>
+                </div>
+            </div>
+
+            <!-- Payment Center Tab -->
+            <div id="payments" class="tab-content">
+                <h2 style="margin-bottom: 2rem; color: #2d5016;">Payment Center</h2>
+                
+                <div class="payment-card">
+                    <div class="payment-header">
+                        <div>
+                            <h3>Total Outstanding</h3>
+                            <div class="payment-total">£0.00</div>
+                        </div>
+                        <div class="payment-status" style="background: #dcfce7; color: #166534;">All Paid</div>
+                    </div>
+                    
+                    <div class="payment-breakdown">
+                        <div class="payment-item">
+                            <div class="payment-item-info">
+                                <div class="category-icon flower-bg">🌺</div>
+                                <div>
+                                    <div style="font-weight: bold;">OG Kush Premium</div>
+                                    <div style="font-size: 0.9rem; color: #666;">Entry #GVG-001</div>
+                                </div>
+                            </div>
+                            <div style="text-align: right;">
+                                <div style="font-weight: bold; color: #22c55e;">£50.00 PAID</div>
+                                <div style="font-size: 0.8rem; color: #666;">Aug 15, 2025</div>
+                            </div>
+                        </div>
+                        
+                        <div class="payment-item">
+                            <div class="payment-item-info">
+                                <div class="category-icon extract-bg">💎</div>
+                                <div>
+                                    <div style="font-weight: bold;">Purple Haze Live Rosin</div>
+                                    <div style="font-size: 0.9rem; color: #666;">Entry #GVG-002</div>
+                                </div>
+                            </div>
+                            <div style="text-align: right;">
+                                <div style="font-weight: bold; color: #22c55e;">£50.00 PAID</div>
+                                <div style="font-size: 0.8rem; color: #666;">Aug 20, 2025</div>
+                            </div>
+                        </div>
+                        
+                        <div class="payment-item">
+                            <div class="payment-item-info">
+                                <div class="category-icon edible-bg">🍫</div>
+                                <div>
+                                    <div style="font-weight: bold;">Premium CBD Gummies</div>
+                                    <div style="font-size: 0.9rem; color: #666;">Entry #GVG-003</div>
+                                </div>
+                            </div>
+                            <div style="text-align: right;">
+                                <div style="font-weight: bold; color: #22c55e;">£50.00 PAID</div>
+                                <div style="font-size: 0.8rem; color: #666;">Aug 25, 2025</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div style="text-align: center; margin-top: 2rem;">
+                        <button class="btn btn-outline">Download Receipts</button>
+                        <button class="btn btn-info">Payment History</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Results Tab -->
+            <div id="results" class="tab-content">
+                <h2 style="margin-bottom: 2rem; color: #2d5016;">Competition Results</h2>
+                
+                <!-- Available Result -->
+                <div class="results-card">
+                    <div class="results-header">
+                        <h3>OG Kush Premium - Final Results</h3>
+                        <div class="final-score">87.3<span style="font-size: 1rem;">/100</span></div>
+                        <div style="font-size: 1.2rem; margin-top: 0.5rem;">🥈 2nd Place - Flower Category</div>
+                    </div>
+                    
+                    <div class="score-breakdown">
+                        <div class="score-item">
+                            <div class="score-category">Visual Appeal</div>
+                            <div class="score-value">18.2/20</div>
+                        </div>
+                        <div class="score-item">
+                            <div class="score-category">Aroma Profile</div>
+                            <div class="score-value">17.8/20</div>
+                        </div>
+                        <div class="score-item">
+                            <div class="score-category">Flavor & Taste</div>
+                            <div class="score-value">16.9/20</div>
+                        </div>
+                        <div class="score-item">
+                            <div class="score-category">Effects & Potency</div>
+                            <div class="score-value">17.1/20</div>
+                        </div>
+                        <div class="score-item">
+                            <div class="score-category">Quality & Craft</div>
+                            <div class="score-value">17.3/20</div>
+                        </div>
+                    </div>
+                    
+                    <div class="ranking">
+                        <div class="rank-position">#2</div>
+                        <div>out of 18 flower entries</div>
+                    </div>
+                </div>
+
+                <!-- Pending Results -->
+                <div style="background: white; padding: 2rem; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); margin-bottom: 1.5rem; text-align: center;">
+                    <h3 style="color: #2d5016; margin-bottom: 1rem;">Purple Haze Live Rosin</h3>
+                    <div style="font-size: 4rem; margin-bottom: 1rem;">⏳</div>
+                    <p style="color: #666;">Currently being judged by our expert panel</p>
+                    <p style="font-weight: bold; color: #8b5cf6; margin-top: 0.5rem;">7 of 10 judges completed | Results expected Sept 5th</p>
+                </div>
+
+                <div style="background: white; padding: 2rem; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); text-align: center;">
+                    <h3 style="color: #2d5016; margin-bottom: 1rem;">Premium CBD Gummies</h3>
+                    <div style="font-size: 4rem; margin-bottom: 1rem;">📦</div>
+                    <p style="color: #666;">Awaiting product delivery for judging to begin</p>
+                    <p style="font-weight: bold; color: #f59e0b; margin-top: 0.5rem;">Expected delivery: Aug 30th</p>
+                </div>
+            </div>
+
+            <!-- Notifications Tab -->
+            <div id="notifications" class="tab-content">
+                <h2 style="margin-bottom: 2rem; color: #2d5016;">Recent Updates</h2>
+                
+                <div class="notification-panel">
+                    <div class="notification-header">
+                        📢 Latest Notifications
+                    </div>
+                    <div class="notification-list">
+                        <div class="notification-item">
+                            <div class="notification-icon">🏆</div>
+                            <div class="notification-content">
+                                <div class="notification-title">Results Available!</div>
+                                <div class="notification-message">Your OG Kush Premium results are ready - congratulations on 2nd place!</div>
+                            </div>
+                            <div class="notification-time">2 hours ago</div>
+                        </div>
+                        
+                        <div class="notification-item">
+                            <div class="notification-icon">⚖️</div>
+                            <div class="notification-content">
+                                <div class="notification-title">Judging Progress Update</div>
+                                <div class="notification-message">Purple Haze Live Rosin: 7 of 10 judges completed evaluation</div>
+                            </div>
+                            <div class="notification-time">6 hours ago</div>
+                        </div>
+                        
+                        <div class="notification-item">
+                            <div class="notification-icon">📦</div>
+                            <div class="notification-content">
+                                <div class="notification-title">Shipping Reminder</div>
+                                <div class="notification-message">Premium CBD Gummies delivery expected Aug 30th - tracking: GV240825001</div>
+                            </div>
+                            <div class="notification-time">1 day ago</div>
+                        </div>
+                        
+                        <div class="notification-item">
+                            <div class="notification-icon">💰</div>
+                            <div class="notification-content">
+                                <div class="notification-title">Payment Confirmed</div>
+                                <div class="notification-message">Entry fee payment received for Premium CBD Gummies (£50.00)</div>
+                            </div>
+                            <div class="notification-time">3 days ago</div>
+                        </div>
+                        
+                        <div class="notification-item">
+                            <div class="notification-icon">✅</div>
+                            <div class="notification-content">
+                                <div class="notification-title">Product Received</div>
+                                <div class="notification-message">Purple Haze Live Rosin samples received and verified (10.3g)</div>
+                            </div>
+                            <div class="notification-time">5 days ago</div>
+                        </div>
+                        
+                        <div class="notification-item">
+                            <div class="notification-icon">🎉</div>
+                            <div class="notification-content">
+                                <div class="notification-title">Welcome to Cannabis Cup 2025!</div>
+                                <div class="notification-message">Your first entry has been successfully submitted. Good luck!</div>
+                            </div>
+                            <div class="notification-time">2 weeks ago</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- New Entry Modal -->
+    <div id="newEntryModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Submit New Entry</h2>
+            <form id="newEntryForm">
+                <div class="form-group">
+                    <label for="productName">Product Name *</label>
+                    <input type="text" id="productName" required>
+                </div>
+                <div class="form-group">
+                    <label for="category">Category *</label>
+                    <select id="category" required>
+                        <option value="">Select Category</option>
+                        <option value="flower">Flower (£50 - 28-30g required)</option>
+                        <option value="extracts">Extracts (£50 - 10g required)</option>
+                        <option value="edibles">Edibles (£50 - 20 pieces required)</option>
+                        <option value="hash">Hash (£50 - 10g required)</option>
+                        <option value="other">Other Products (£50 - Variable)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="strain">Strain/Product Details</label>
+                    <input type="text" id="strain" placeholder="e.g. Wedding Cake, Indica Dominant">
+                </div>
+                <div class="form-group">
+                    <label for="thcContent">THC Content (%)</label>
+                    <input type="number" id="thcContent" step="0.1" max="100">
+                </div>
+                <div class="form-group">
+                    <label for="cbdContent">CBD Content (%)</label>
+                    <input type="number" id="cbdContent" step="0.1" max="100">
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%; padding: 1rem; font-size: 1.1rem;">Submit Entry (£50.00)</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Results Detail Modal -->
+    <div id="resultsModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Detailed Results: OG Kush Premium</h2>
+            <div style="text-align: center; margin-bottom: 2rem;">
+                <div style="font-size: 3rem; font-weight: bold; color: #2d5016;">87.3/100</div>
+                <div style="font-size: 1.5rem; color: #666;">🥈 2nd Place</div>
+            </div>
+            
+            <h3 style="margin-bottom: 1rem; color: #2d5016;">Judge Comments Summary</h3>
+            <div style="background: #f8fafc; padding: 1.5rem; border-radius: 10px; margin-bottom: 2rem;">
+                <p style="font-style: italic; color: #666;">"Exceptional trichome coverage and classic OG aroma. Dense, well-structured buds with excellent cure. Strong indica effects with smooth onset. Minor points deducted for slight harshness on exhale."</p>
+            </div>
+            
+            <h3 style="margin-bottom: 1rem; color: #2d5016;">Category Breakdown</h3>
+            <div style="display: grid; gap: 1rem;">
+                <div style="display: flex; justify-content: space-between; padding: 1rem; background: #f8fafc; border-radius: 10px;">
+                    <span><strong>Visual Appeal:</strong> Trichome coverage excellent, structure perfect</span>
+                    <span style="font-weight: bold; color: #22c55e;">18.2/20</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; padding: 1rem; background: #f8fafc; border-radius: 10px;">
+                    <span><strong>Aroma Profile:</strong> Classic OG pine, earthy undertones</span>
+                    <span style="font-weight: bold; color: #22c55e;">17.8/20</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; padding: 1rem; background: #f8fafc; border-radius: 10px;">
+                    <span><strong>Flavor & Taste:</strong> Good flavor, slight harshness noted</span>
+                    <span style="font-weight: bold; color: #f59e0b;">16.9/20</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; padding: 1rem; background: #f8fafc; border-radius: 10px;">
+                    <span><strong>Effects & Potency:</strong> Strong indica effects, smooth onset</span>
+                    <span style="font-weight: bold; color: #22c55e;">17.1/20</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; padding: 1rem; background: #f8fafc; border-radius: 10px;">
+                    <span><strong>Quality & Craft:</strong> Professional cure and trim quality</span>
+                    <span style="font-weight: bold; color: #22c55e;">17.3/20</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Mobile navigation toggle
+        function toggleMobileNav() {
+            const mobileNav = document.getElementById('mobileNav');
+            const navIcon = document.getElementById('navIcon');
+            
+            mobileNav.classList.toggle('active');
+            navIcon.textContent = mobileNav.classList.contains('active') ? '✕' : '☰';
+        }
+
+        // Tab functionality
+        function showTab(tabName) {
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            document.querySelectorAll('.tab-button').forEach(button => {
+                button.classList.remove('active');
+            });
+            
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        // Modal functionality
+        function openModal(type) {
+            document.getElementById(type + 'Modal').style.display = 'block';
+        }
+
+        function viewResults(entryId) {
+            document.getElementById('resultsModal').style.display = 'block';
+        }
+
+        // Close modals
+        document.querySelectorAll('.close').forEach(closeBtn => {
+            closeBtn.onclick = function() {
+                this.closest('.modal').style.display = 'none';
+            }
+        });
+
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.style.display = 'none';
+            }
+        }
+
+        // New entry form submission
+        document.getElementById('newEntryForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const productName = document.getElementById('productName').value;
+            const category = document.getElementById('category').value;
+            
+            alert(`New entry "${productName}" submitted successfully!\n\nNext steps:\n1. Complete payment (£50.00)\n2. Ship product samples\n3. Track progress in dashboard`);
+            
+            document.getElementById('newEntryModal').style.display = 'none';
+            this.reset();
+        });
+
+        // Simulate real-time updates
+        function simulateUpdates() {
+            // Randomly update judging progress
+            const progressElements = document.querySelectorAll('.progress-fill');
+            progressElements.forEach(progress => {
+                if (Math.random() > 0.9) { // 10% chance
+                    const currentWidth = parseInt(progress.style.width) || 67;
+                    if (currentWidth < 100) {
+                        progress.style.width = Math.min(currentWidth + 5, 100) + '%';
+                    }
+                }
+            });
+        }
+
+        setInterval(simulateUpdates, 8000);
+
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Add interactive feedback to buttons
+        document.querySelectorAll('.btn').forEach(button => {
+            if (!button.onclick) {
+                button.addEventListener('click', function() {
+                    const action = this.textContent.toLowerCase();
+                    if (action.includes('download')) {
+                        alert('Download would start here - PDF/CSV generation');
+                    } else if (action.includes('message') || action.includes('support')) {
+                        alert('Contact form would open here');
+                    } else if (action.includes('track')) {
+                        alert('Detailed tracking interface would open here');
+                    } else if (action.includes('update')) {
+                        alert('Update form would open here');
+                    } else {
+                        alert(`${this.textContent} functionality would execute here`);
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>
